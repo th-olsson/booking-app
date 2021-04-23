@@ -1,11 +1,13 @@
 function Book() {
     return (
-        <article>
-            <p>SödermalmFrisör</p>
-            <p>KL. 10:00</p>
-            <button>Boka om</button>
-            <button>Avboka</button>
-        </article>
+        <form>
+            <label htmlFor='text'>Ditt namn</label>
+            <input type='text' name='text' />
+            <label htmlFor='time'>Önskad tid</label>
+            <input type='time' name='time' value='10:00' />
+            <input type='tel' name='tel' placeholder='Telefonnummer' />
+            <button>Bekräfta</button>
+        </form>
     )
 }
 
