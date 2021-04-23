@@ -5,7 +5,6 @@ function Hair() {
     return (
         <>
             <Treatments />
-            <Booking />
         </>
     )
 }
