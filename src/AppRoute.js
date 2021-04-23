@@ -1,12 +1,11 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Book from "./components/Book";
-import Form from "./components/Form";
+
 import NavBar from "./components/NavBar";
-import Treatments from "./components/Treatments";
-import Bookings from "./pages/Bookings";
+
+import Home from "./pages/Home";
 import Hair from "./pages/Hair";
 import Beauty from "./pages/Beauty";
-import Home from "./pages/Home";
+import Bookings from "./pages/Bookings";
 import Login from "./pages/Login";
 
 function AppRoute() {
