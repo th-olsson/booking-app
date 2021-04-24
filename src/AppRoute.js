@@ -3,11 +3,11 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import NavBar from "./components/NavBar";
 
 import Home from "./pages/Home";
-import Hair from "./pages/Hair";
-import Beauty from "./pages/Beauty";
 import Bookings from "./pages/Bookings";
 import Login from "./pages/Login";
 import Book from "./components/Book";
+// import Treatments from "./components/Treatments";
+import TreatmentCategory from "./pages/TreatmentCategory";
 
 function AppRoute() {
     return (
@@ -16,8 +16,7 @@ function AppRoute() {
             <NavBar />
             <Switch>
                 <Route exact path='/' component={Home} />
-                <Route path='/hair' component={Hair} />
-                <Route path='/beauty' component={Beauty} />
+                <Route path='/category/:id' component={TreatmentCategory} />
                 <Route path='/bookings' component={Bookings} />
                 <Route path='/login' component={Login} />
                 <Route path='/book/:id' component={Book} />
