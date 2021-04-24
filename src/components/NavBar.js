@@ -6,10 +6,10 @@ function NavBar() {
             <ul>
                 {/* <li><svg></svg></li> logo*/}
                 <li><Link to='/'>Home</Link></li>
-                <li><Link to='/category/hair'>Frisör</Link></li>
-                <li><Link to='/category/beauty'>Skönhet</Link></li>
-                <li><Link to='/bookings'>Mina bokningar</Link></li>
-                <li><Link to='/login'>Login/logout</Link></li>
+                <li><Link to='/behandling/frisör'>Frisör</Link></li>
+                <li><Link to='/behandling/skönhet'>Skönhet</Link></li>
+                <li><Link to='/bokningar'>Mina bokningar</Link></li>
+                <li><Link to='/inloggning'>Login/logout</Link></li>
             </ul>
         </nav>
     )

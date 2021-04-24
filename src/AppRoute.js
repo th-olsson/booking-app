@@ -16,10 +16,10 @@ function AppRoute() {
             <NavBar />
             <Switch>
                 <Route exact path='/' component={Home} />
-                <Route path='/category/:id' component={TreatmentCategory} />
-                <Route path='/bookings' component={Bookings} />
-                <Route path='/login' component={Login} />
-                <Route path='/book/:id' component={Book} />
+                <Route path='/behandling/:id' component={TreatmentCategory} />
+                <Route path='/bokningar' component={Bookings} />
+                <Route path='/inloggning' component={Login} />
+                <Route path='/boka/:id' component={Book} />
             </Switch>
             </>
         </Router>
