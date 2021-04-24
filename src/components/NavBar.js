@@ -7,7 +7,7 @@ function NavBar() {
                 {/* <li><svg></svg></li> logo*/}
                 <li><Link to='/'>Home</Link></li>
                 <li><Link to='/hair'>Frisör</Link></li>
-                <li><Link to='beauty'>Skönhet</Link></li>
+                <li><Link to='/beauty'>Skönhet</Link></li>
                 <li><Link to='/bookings'>Mina bokningar</Link></li>
                 <li><Link to='/login'>Login/logout</Link></li>
             </ul>

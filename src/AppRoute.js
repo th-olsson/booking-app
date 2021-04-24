@@ -7,6 +7,7 @@ import Hair from "./pages/Hair";
 import Beauty from "./pages/Beauty";
 import Bookings from "./pages/Bookings";
 import Login from "./pages/Login";
+import Book from "./components/Book";
 
 function AppRoute() {
     return (
@@ -19,6 +20,7 @@ function AppRoute() {
                 <Route path='/beauty' component={Beauty} />
                 <Route path='/bookings' component={Bookings} />
                 <Route path='/login' component={Login} />
+                <Route path='/book/:id' component={Book} />
             </Switch>
             </>
         </Router>
