@@ -6,7 +6,6 @@ function TreatmentCategory() {
     console.log(id);
     return (
         <>
-            <h1>Behandlingar inom {id}</h1>
             <TreatmentList category={id} />
         </>
     )
