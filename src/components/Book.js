@@ -17,9 +17,6 @@ function Book() {
     console.log(bookingDetails);
 
     function handleChange(e) {
-        console.log("former booking details:");
-        console.log(bookingDetails);
-
         const newBookingDetails = bookingDetails;
 
         const inputName = e.target.name;
@@ -40,17 +37,15 @@ function Book() {
                 return;
         }
 
-        console.log("new booking details:");
-        console.log(newBookingDetails);
-
         setBookingDetails(newBookingDetails);
     }
 
     function handleSubmit(e) {
         e.preventDefault();
-        console.log(e.target.text.value)
+        
+        console.log('Data to submit:');
+        console.log(bookingDetails);
     }
-
 
     return (
         <>

@@ -1,4 +1,4 @@
-function Booking() {
+function Booking({treatment, time}) {
     return (
         <article>
             <p>SödermalmFrisör</p>

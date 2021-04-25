@@ -1,11 +1,18 @@
 import Booking from "../components/Booking";
+import { useState } from 'react';
 
-function Bookings() {
+function Bookings({bookingDetails}) {
+    const [myBookings, setMyBookings] = useState([]);
+    
+    function addBooking(bookingDetails) {
+        
+    }
+
     return (
-        <div>
+        <section>
             <h1>Mina bokningar</h1>
             <Booking />
-        </div>
+        </section>
     )
 }
 
