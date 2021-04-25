@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom'
 
-
-function Book() {
+function Book({ returnToParent }) {
     const treatmentDetails = (useLocation().state);
-    const { name, category, description, id, price } = treatmentDetails;
+    const { name, id, price } = treatmentDetails;
 
     const [bookingDetails, setBookingDetails] = useState({
         treatmentId: id,
+        treatment: name,
         name: '',
         time: '',
         tel: ''
@@ -42,15 +42,17 @@ function Book() {
 
     function handleSubmit(e) {
         e.preventDefault();
-        
+
         console.log('Data to submit:');
         console.log(bookingDetails);
+
+        returnToParent(bookingDetails);
     }
 
     return (
         <>
             <h2>Boka {name} {price} sek</h2>
-            <form onChange={handleChange} onSubmit={handleSubmit} method='post'>
+            <form onChange={handleChange} onSubmit={handleSubmit}>
                 <label htmlFor='text'>Ditt namn</label>
                 <input type='text' name='name' required />
                 <label htmlFor='time'>Önskad tid</label>

@@ -77,28 +77,25 @@ function TreatmentList({ category }) {
             price: 240,
             category: "frisör"
         }
-        
-            
+
+
     ]);
 
     return (
         <section className='treatments'>
-
             {treatments.map(({ id, name, description, price, category }) =>
 
                 currentUrlCategory === category &&
-                    <TreatmentCard
-                        key={id.toString()}
-                        value={id}
-                        name={name}
-                        description={description}
-                        price={price}
-                        category={category}
-                    />)}
-
+                <TreatmentCard
+                    key={id.toString()}
+                    value={id}
+                    name={name}
+                    description={description}
+                    price={price}
+                    category={category}
+                />)}
         </section>
     )
 }
-
 
 export default TreatmentList

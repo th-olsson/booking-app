@@ -1,8 +1,8 @@
-function Booking({treatment, time}) {
+function Booking({ value, treatment, time }) {
     return (
-        <article>
-            <p>SödermalmFrisör</p>
-            <p>KL. 10:00</p>
+        <article className={`booking-${value}`}>
+            <p>{treatment}</p>
+            <p>KL. {time}</p>
             <button>Boka om</button>
             <button>Avboka</button>
         </article>
