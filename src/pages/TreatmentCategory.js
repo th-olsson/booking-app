@@ -1,14 +1,14 @@
 import { useParams } from 'react-router-dom'
-import Treatments from '../components/Treatments'
+import TreatmentList from '../components/TreatmentList'
 
 function TreatmentCategory() {
     const { id } = useParams();
     console.log(id);
     return (
         <>
-        <h1>Behandlingar inom {id}</h1>
-        <Treatments category={id} />
-        </> 
+            <h1>Behandlingar inom {id}</h1>
+            <TreatmentList category={id} />
+        </>
     )
 }
 

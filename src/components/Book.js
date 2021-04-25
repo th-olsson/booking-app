@@ -1,14 +1,10 @@
-// import { useState } from 'react';    
-import { useParams } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 
 function Book() {
-    // const [bookingDetails, setBookingDetails] = useState({
-    //     name: '',
-    //     time: '',
-    //     tel: ''
-    // })
 
-    const { id } = useParams();
+    const bookingDetails = (useLocation().state);
+    console.log(bookingDetails);
+    const {name, category, description, id, price} = bookingDetails;
 
     function handleChange() {
         console.log('Form changed');
@@ -16,7 +12,7 @@ function Book() {
 
     return (
         <form onChange={handleChange}>
-            <h2>Boka {id}</h2>
+            <h2>Boka {name} {price} sek</h2>
             <label htmlFor='text'>Ditt namn</label>
             <input type='text' name='text' />
             <label htmlFor='time'>Önskad tid</label>

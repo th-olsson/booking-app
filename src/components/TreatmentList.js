@@ -1,14 +1,11 @@
-import Treatment from './Treatment'
+import TreatmentCard from './TreatmentCard'
 import { useState } from 'react';
 
-function Treatments({ category }) {
+function TreatmentList({ category }) {
 
-    // const treatmentCategory = category;
-    console.log(category);
-
-    const [treatments, setTreatments] = useState([
+    const [treatments] = useState([
         {
-            id: "test",
+            id: 1,
             name: "Herrklippning",
             description: "20-45 minuter, inklusive tvätt & fön",
             price: 450,
@@ -34,19 +31,18 @@ function Treatments({ category }) {
         <section className='treatments'>
 
             {treatments.map(({ id, name, description, price }) =>
-                <Treatment
-                    key={id}
+                <TreatmentCard 
+                    key={id.toString()}
+                    value={id}
                     name={name}
                     description={description}
                     price={price}
-                    // category={treatmentCategory}
+                    category={category}
                 />)}
-            {/* <h1>{treatmentCategory}</h1> */}
-
 
         </section>
     )
 }
 
 
-export default Treatments
+export default TreatmentList
