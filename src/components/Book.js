@@ -51,7 +51,7 @@ function Book({ returnToParent }) {
 
     return (
         <div className='flex place-content-center'>
-            <div className='flex flex-col justify-evenly rounded-md shadow-md py-2 px-5 bg-blue'>
+            <div className='flex flex-col justify-evenly rounded-md shadow-md py-2 px-5'>
                 <form onChange={handleChange} onSubmit={handleSubmit} className="flex flex-col h-full justify-between">
                     <h2 className="text-xl font-semibold pl-2">Boka {name} {price} sek</h2>
                     <label htmlFor='text' className="text-s font-semibold px-2 py-1">Ditt namn</label>

@@ -6,8 +6,7 @@ function Bookings({ bookingsList }) {
     console.log(typeof (bookingsList));
 
     return (
-        <section>
-            <h1>Mina bokningar</h1>
+        <section className='flex flex-col items-center'>
             {bookingsList.map(({ treatmentId, treatment, time }) =>
                 <Booking
                     key={treatmentId.toString()}
