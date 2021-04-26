@@ -50,17 +50,20 @@ function Book({ returnToParent }) {
     }
 
     return (
-        <>
-            <h2>Boka {name} {price} sek</h2>
-            <form onChange={handleChange} onSubmit={handleSubmit}>
-                <label htmlFor='text'>Ditt namn</label>
-                <input type='text' name='name' required />
-                <label htmlFor='time'>Önskad tid</label>
-                <input type='time' name='time' required />
-                <input type='tel' name='tel' placeholder='Telefonnummer' />
-                <button>Bekräfta</button>
-            </form>
-        </>
+        <div className='flex place-content-center'>
+            <div className='flex flex-col justify-evenly rounded-md shadow-md py-2 px-5 bg-blue'>
+                <form onChange={handleChange} onSubmit={handleSubmit} className="flex flex-col h-full justify-between">
+                    <h2 className="text-xl font-semibold pl-2">Boka {name} {price} sek</h2>
+                    <label htmlFor='text' className="text-s font-semibold px-2 py-1">Ditt namn</label>
+                    <input type='text' name='name' required className='border-2 border-gray-200 focus:outline-none py-1 px-4 rounded-lg' />
+                    <label htmlFor='time' className="text-s font-semibold px-2 py-1">Önskad tid</label>
+                    <input type='time' name='time' required className='border-2 border-gray-200 focus:outline-none py-1 px-4 rounded-lg' />
+                    <label htmlFor='time' className="text-s font-semibold px-2 py-1">Telefonnummer</label>
+                    <input type='tel' name='tel' className="border-2 border-gray-200 focus:outline-none py-1 px-4 rounded-lg" />
+                    <button className="px-4 py-2 mt-2 text-white font-light tracking-wider bg-gray-900 hover:bg-gray-800 rounded">Bekräfta</button>
+                </form>
+            </div>
+        </div>
     )
 }
 

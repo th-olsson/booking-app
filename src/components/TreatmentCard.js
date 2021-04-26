@@ -6,7 +6,7 @@ function TreatmentCard({ value, img, name, description, price, category }) {
         <article className="flex flex-col justify-evenly rounded-md shadow-md overflow-hidden">
             <img src="https://source.unsplash.com/random/500x400" />
             <div className="flex flex-col h-full justify-between">
-                <h2 className="text-gray-750 uppercase text-lg pl-2">{name} </h2>
+                <h2 className="text-gray-750 text-lg pl-2 font-semibold">{name} </h2>
                 <p className=" px-2 py-1">{description}</p>
                 <span className=" flex justify-around py-2">
                     {/* Book-button */}
