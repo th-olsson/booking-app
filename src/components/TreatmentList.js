@@ -82,19 +82,22 @@ function TreatmentList({ category }) {
     ]);
 
     return (
-        <section className='treatments'>
-            {treatments.map(({ id, name, description, price, category }) =>
+        <>
+            {/* <h1>Behandlingar inom {category}</h1> */}
+            <section className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-6">
+                {treatments.map(({ id, name, description, price, category }) =>
 
-                currentUrlCategory === category &&
-                <TreatmentCard
-                    key={id.toString()}
-                    value={id}
-                    name={name}
-                    description={description}
-                    price={price}
-                    category={category}
-                />)}
-        </section>
+                    currentUrlCategory === category &&
+                    <TreatmentCard
+                        key={id.toString()}
+                        value={id}
+                        name={name}
+                        description={description}
+                        price={price}
+                        category={category}
+                    />)}
+            </section>
+        </>
     )
 }
 
