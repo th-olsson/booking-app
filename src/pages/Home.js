@@ -9,7 +9,7 @@ function Home() {
                     <img src='https://images.unsplash.com/photo-1593269233759-427ba69acca5?' height='500' width='400' />
                     <h2 className="text-gray-750 text-lg pl-2 font-semibold">Frisör</h2>
                 </Link>
-                <Link to='behandling/frisör/'>
+                <Link to='behandling/skönhet/'>
                     <img src='https://images.unsplash.com/photo-1556760544-74068565f05c' height='500' width='400' />
                     <h2 className="text-gray-750 text-lg pl-2 font-semibold">Skönhet</h2>
                 </Link>
