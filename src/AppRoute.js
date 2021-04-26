@@ -23,7 +23,6 @@ function AppRoute() {
                 <NavBar />
                 <Switch>
                     <Route exact path='/' component={Home} />
-                    <Route exact path='/booking-app' component={Home} /> {/* For github pages start page*/}
                     <Route path='/behandling/:id' component={TreatmentCategory} />
                     <Route path='/bokningar'><Bookings bookingsList={myBookingsList} /></Route>
                     <Route path='/inloggning' component={Login} />
