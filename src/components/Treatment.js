@@ -1,6 +1,15 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
-function TreatmentCard({ value, img, name, description, price, category }) {
+function Treatment({ value, img, name, description, price, category }) {
+    const [treatmentInfo, seTreatmentInfo] = useState({
+        id: value,
+        name: name,
+        description: description,
+        price: price,
+        category: category
+    })
+
     return (
         // Card
         <article className="flex flex-col justify-evenly rounded-md shadow-md overflow-hidden">
@@ -29,4 +38,4 @@ function TreatmentCard({ value, img, name, description, price, category }) {
     )
 }
 
-export default TreatmentCard
+export default Treatment

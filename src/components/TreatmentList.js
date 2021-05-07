@@ -1,4 +1,4 @@
-import TreatmentCard from './TreatmentCard'
+import Treatment from './Treatment'
 import { useState } from 'react';
 
 function TreatmentList({ category }) {
@@ -88,7 +88,7 @@ function TreatmentList({ category }) {
                 {treatments.map(({ id, name, description, price, category }) =>
 
                     currentUrlCategory === category &&
-                    <TreatmentCard
+                    <Treatment
                         key={id.toString()}
                         value={id}
                         name={name}
