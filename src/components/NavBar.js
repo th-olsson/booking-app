@@ -10,6 +10,7 @@ function NavBar() {
                     <li className="px-2 text-lg"><Link to='/behandling/skönhet'>Skönhet</Link></li>
                 </div>
                 <div className="flex items-center">
+                    <li className="px-2 text-lg"><Link to='/admin'>Admin</Link></li>
                     <li className="px-2 text-lg"><Link to='/bokningar'>Mina bokningar</Link></li>
                     <li className="px-2 text-lg "><Link to='/inloggning'>Logga in</Link></li>
                 </div>

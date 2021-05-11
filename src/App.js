@@ -7,6 +7,8 @@ import Bookings from "./pages/Bookings";
 import Login from "./pages/Login";
 import BookTreatment from "./pages/BookTreatment";
 import TreatmentCategory from "./pages/TreatmentCategory";
+import BookNew from './components/BookNew';
+import Admin from './pages/Admin'
 
 function App() {
   const [myBookingsList, setMyBookingsList] = useState([]);
@@ -28,6 +30,8 @@ function App() {
           <Route path='/bokningar'><Bookings bookingsList={myBookingsList} /></Route>
           <Route path='/inloggning' component={Login} />
           <Route path='/boka/:id'><BookTreatment getBookingData={getBookingData} /></Route>
+          <Route path='/boka2' component={BookNew} /> {/* In development. Meant to replace other booking component but with dynamic time/date pick*/}
+          <Route path='/admin' component={Admin} />
         </Switch>
       </>
     </Router>
