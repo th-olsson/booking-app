@@ -1,16 +1,62 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 
 function LoginForm() {
     const [formData, setFormData] = useState({
-
+        username: '',
+        password: ''
     })
+
+    function handleChange(e) {
+        const newFormData = formData
+
+        const inputName = e.target.name
+        const inputValue = e.target.value
+
+        switch (inputName) {
+            case "username":
+                newFormData.username = inputValue
+                break
+            case "password":
+                newFormData.password = inputValue
+                break
+            default:
+                console.log("No match")
+                return
+        }
+
+        setFormData(newFormData);
+    }
+
+    function loginUser(e) {
+        e.preventDefault()
+
+        axios.post('http://localhost:1337/auth/local', {
+            identifier: formData.username,
+            password: formData.password,
+        })
+            .then(response => {
+                // Handle success.
+                console.log('Well done!');
+                console.log('User profile', response.data.user);
+                console.log('User token', response.data.jwt);
+                const jwt = response.data.jwt;
+
+                //Store jwt in localStorage
+                localStorage.setItem('jwt', jwt)
+            })
+            .catch(error => {
+                // Handle error.
+                console.log('An error occurred:', error.response);
+            });
+    }
 
 
     return (
         <div className='flex content-center place-content-center bg-gray-200'>
             <div className="flex flex-col rounded-lg shadow-lg my-20">
-                <form className="flex flex-col space-evenly px-8 py-6">
+                <form onChange={handleChange} onSubmit={loginUser} className="flex flex-col space-evenly px-8 py-6">
                     <label className='text-s font-semibold px-1' htmlFor='username'>Användarnamn</label>
                     <input type='text' name='username' className='px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 sm:text-sm border-gray-300 rounded-md focus:outline-none'></input>
                     <label className='text-s font-semibold px-1' htmlFor='password'>Lösenord</label>
