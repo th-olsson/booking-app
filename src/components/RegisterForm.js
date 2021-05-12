@@ -35,7 +35,15 @@ function RegisterForm() {
 
     function registerUser(e) {
         e.preventDefault()
-        console.log(formData)
+
+        // Submit new user to database
+        axios.post('http://localhost:1337/users/', formData)
+            .then((formData) => {
+                console.log(formData)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
     }
 
     return (
