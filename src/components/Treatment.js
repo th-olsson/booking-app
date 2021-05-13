@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
 function Treatment({ value, img, name, description, price, category, duration }) {
@@ -9,6 +9,15 @@ function Treatment({ value, img, name, description, price, category, duration })
         price: price,
         category: category
     })
+
+    const [loggedIn, setLoggedIn] = useState('')
+
+    useEffect(() => {
+        const localLoggedIn = localStorage.getItem('loggedIn')
+        const boolLoggedIn = JSON.parse(localLoggedIn)
+
+        setLoggedIn(boolLoggedIn)
+    }, [])
 
     return (
         // Card
@@ -23,20 +32,24 @@ function Treatment({ value, img, name, description, price, category, duration })
                 </span>
 
                 <p className="px-2 py-1 ">{description}</p>
-                {/* Book-button */}
-                <Link className="px-4 py-1 text-gray-50 tracking-wider bg-green-700 hover:bg-green-600 rounded" to={
-                    {
-                        pathname: `/boka/${name.toLowerCase()}-${value}`,
-                        state: {
-                            id: value,
-                            name: name,
-                            description: description,
-                            price: price,
-                            category: category,
-                            duration: duration
+                {loggedIn ?
+                    // Book button
+                    <Link className="px-4 py-1 text-gray-50 tracking-wider bg-green-700 hover:bg-green-600 rounded" to={
+                        {
+                            pathname: `/boka/${name.toLowerCase()}-${value}`,
+                            state: {
+                                id: value,
+                                name: name,
+                                description: description,
+                                price: price,
+                                category: category,
+                                duration: duration
+                            }
                         }
-                    }
-                }>Boka</Link>
+                    }>Boka</Link>
+                    // Link to login if not online
+                    : <Link to='/inloggning' className="px-4 py-1 text-gray-50 tracking-wider bg-green-700 hover:bg-green-600 rounded" >Boka</Link>
+                }
             </div>
         </article>
     )
