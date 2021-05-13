@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 
@@ -41,10 +41,19 @@ function LoginForm() {
                 console.log('Well done!');
                 console.log('User profile', response.data.user);
                 console.log('User token', response.data.jwt);
-                const jwt = response.data.jwt;
 
-                //Store jwt in localStorage
-                localStorage.setItem('jwt', jwt)
+                //Store user data in localStorage:
+                localStorage.setItem('username', response.data.user.username)
+                localStorage.setItem('email', response.data.user.email)
+
+                //Store JWT in localStorage
+                localStorage.setItem('jwt', response.data.jwt)
+
+                //Set logged in status to true in localStorage
+                localStorage.setItem('loggedIn', true)
+
+                //Refresh page
+                window.location.reload();
             })
             .catch(error => {
                 // Handle error.
