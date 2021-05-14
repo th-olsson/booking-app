@@ -13,15 +13,27 @@ function Book({ returnToParent }) {
         tel: ''
     });
 
-    const [availableTimes, setAvailableTimes] = useState([
-        "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
+    // List of all possible times
+    const [possibleTimes, setPossibleTimes] = useState([
+        "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
         "12:00", "12:30", "13:00", "13:30", "14:00", "14:30",
-        "15:00", "15:30", "16:00", "16:30", "17:00", "17:30",
-        "18:00", "18:30"
+        "15:00", "15:30", "16:00"
+    ])
+
+    // Should get data from appotinments-table in db - Temporary example data:
+    const [unAvailableTimes, setUnAvailableTimes] = useState([
+        "09:30", "10:00", "10:30", "14:00"
+    ])
+
+    const [availableTimes, setAvailableTimes] = useState([
     ])
 
     useEffect(() => {
-        console.log(treatmentDetails)
+        // Filter out possible times by unavailable times
+        const newAvailableTimes = possibleTimes.filter(possibleTime => !unAvailableTimes.includes(possibleTime))
+
+        //Set available times
+        setAvailableTimes(newAvailableTimes)
     }, [])
 
     //Om ej inloggad --> redirect till /inloggning
@@ -60,6 +72,10 @@ function Book({ returnToParent }) {
         console.log('Data to submit:');
         console.log(bookingDetails);
 
+        //Submit appointment data to db
+
+
+
         returnToParent(bookingDetails);
     }
 
@@ -71,7 +87,7 @@ function Book({ returnToParent }) {
                     <label htmlFor='text' className="text-s font-semibold px-2 py-1">Ditt namn</label>
                     <input type='text' name='name' required className='border-2 border-gray-200 focus:outline-none py-1 px-4 rounded-lg' />
                     <label htmlFor='time' className="text-s font-semibold px-2 py-1">Vilken tid vill du börja behandlingen?</label>
-                    {<select name='time' id='time'>
+                    {<select name='time' id='time' className>
                         {availableTimes.map((availableTime) =>
                             <option value={availableTime}>{availableTime}</option>
                         )}
