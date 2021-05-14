@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom'
+import axios from 'axios'
 
 function Book({ returnToParent }) {
     const treatmentDetails = (useLocation().state);
     const { name, id, price, duration } = treatmentDetails;
 
     const [bookingDetails, setBookingDetails] = useState({
-        treatmentId: id,
+        treatment_id: id,
         treatment: name,
         name: '',
         time: '',
@@ -36,9 +37,6 @@ function Book({ returnToParent }) {
         setAvailableTimes(newAvailableTimes)
     }, [])
 
-    //Om ej inloggad --> redirect till /inloggning
-    //Hur uppnå detta. useEffect? Innan eller efter rendering?
-
     console.log("initial booking details:");
     console.log(bookingDetails);
 
@@ -66,7 +64,7 @@ function Book({ returnToParent }) {
         setBookingDetails(newBookingDetails);
     }
 
-    function handleSubmit(e) {
+    function bookTreatment(e) {
         e.preventDefault();
 
         console.log('Data to submit:');
@@ -74,15 +72,26 @@ function Book({ returnToParent }) {
 
         //Submit appointment data to db
 
+        axios.post('http://localhost:1337/appointments', {
+            name: bookingDetails.name,
+            tel: bookingDetails.tel,
+            time: bookingDetails.time,
+            treatment_id: bookingDetails.treatment_id
+        })
+            .then((response) => {
+                console.log(response)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
 
-
-        returnToParent(bookingDetails);
+        returnToParent(bookingDetails); //This will be replaced by db post
     }
 
     return (
         <div className='flex place-content-center'>
             <div className='flex flex-col justify-evenly rounded-md shadow-md py-2 px-5'>
-                <form onChange={handleChange} onSubmit={handleSubmit} className="flex flex-col h-full justify-between">
+                <form onChange={handleChange} onSubmit={bookTreatment} className="flex flex-col h-full justify-between">
                     <h2 className="text-xl font-semibold pl-2">Boka {duration} min {name} {price}kr</h2>
                     <label htmlFor='text' className="text-s font-semibold px-2 py-1">Ditt namn</label>
                     <input type='text' name='name' required className='border-2 border-gray-200 focus:outline-none py-1 px-4 rounded-lg' />
