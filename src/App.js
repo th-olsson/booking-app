@@ -7,20 +7,12 @@ import Bookings from "./pages/Bookings";
 import Login from "./pages/Login";
 import BookTreatment from "./pages/BookTreatment";
 import TreatmentCategory from "./pages/TreatmentCategory";
-import BookNew from './components/BookNew';
+import TimeConversion from './components/TimeConversion';
+import BookTest from './components/BookTest';
 import Admin from './pages/Admin'
 import Register from './pages/Register';
 
 function App() {
-  const [myBookingsList, setMyBookingsList] = useState([]);
-
-  function getBookingData(newObject) {
-    const formerBookingsList = myBookingsList;
-    const newBookingsList = [...formerBookingsList, newObject];
-
-    setMyBookingsList(newBookingsList)
-  }
-
   return (
     <Router>
       <>
@@ -28,10 +20,10 @@ function App() {
         <Switch>
           <Route exact path='/' component={Home} />
           <Route path='/behandling/:id' component={TreatmentCategory} />
-          <Route path='/bokningar'><Bookings bookingsList={myBookingsList} /></Route>
+          <Route path='/bokningar' component={Bookings} />
           <Route path='/inloggning' component={Login} />
-          <Route path='/boka/:id'><BookTreatment getBookingData={getBookingData} /></Route>
-          <Route path='/boka2' component={BookNew} /> {/* In development. Meant to replace other booking component but with dynamic time/date pick*/}
+          <Route path='/boka/:id' component={BookTreatment} />
+          <Route path='/boka2' component={BookTest} /> {/* In development. Meant to replace other booking component but with dynamic time/date pick*/}
           <Route path='/admin' component={Admin} />
           <Route path='/registrering' component={Register} />
         </Switch>

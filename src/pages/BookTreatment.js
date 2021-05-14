@@ -1,9 +1,9 @@
 import React from 'react'
 import Book from '../components/Book';
 
-function BookTreatment({getBookingData}) {
+function BookTreatment() {
     return (
-        <Book returnToParent={getBookingData}/>
+        <Book/>
     )
 }
 

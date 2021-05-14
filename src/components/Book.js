@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom'
 import axios from 'axios'
 
-function Book({ returnToParent }) {
+function Book() {
+    //Data passed via Link state
     const treatmentDetails = (useLocation().state);
     const { name, id, price, duration } = treatmentDetails;
 
@@ -25,7 +26,6 @@ function Book({ returnToParent }) {
         "15:00", "15:30", "16:00"
     ])
 
-    // Should get data from appotinments-table in db - Temporary example data:
     const [unavailableTimes, setUnavailableTimes] = useState([])
 
     // Gets set with possible times with respect to unavailable times
@@ -124,8 +124,6 @@ function Book({ returnToParent }) {
             .catch((err) => {
                 console.log(err)
             })
-
-        returnToParent(bookingDetails); // This will be replaced by db post
     }
 
     return (
