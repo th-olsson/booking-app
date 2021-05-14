@@ -66,7 +66,7 @@ function RegisterForm() {
                     <Link to='/inloggning'>Klicka här för att logga in</Link>
                 </div> :
 
-                <div className='flex content-center place-content-center bg-gray-200'>
+                <div className='flex content-center place-content-center'>
                     <div className="flex flex-col rounded-lg shadow-lg my-20">
                         <form onChange={handleChange} onSubmit={registerUser} className="flex flex-col space-evenly px-8 py-6">
                             <label className='text-s font-semibold px-1' htmlFor='email'>E-mail</label>
