@@ -28,7 +28,7 @@ function TreatmentList({ category }) {
                     currentUrlCategory === category &&
                     <Treatment
                         key={id.toString()}
-                        value={id}
+                        id={id}
                         name={name}
                         description={description}
                         price={price}

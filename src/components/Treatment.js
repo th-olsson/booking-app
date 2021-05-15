@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
-function Treatment({ value, img, name, description, price, category, duration }) {
+function Treatment({ id, img, name, description, price, category, duration }) {
     const [treatmentInfo, seTreatmentInfo] = useState({
-        id: value,
+        id: id,
         name: name,
         description: description,
         price: price,
@@ -34,11 +34,11 @@ function Treatment({ value, img, name, description, price, category, duration })
                 <p className="px-2 py-1 ">{description}</p>
                 {loggedIn ?
                     // Book button
-                    <Link className="px-4 py-1 text-gray-50 tracking-wider bg-green-700 hover:bg-green-600 rounded" to={
+                    <button className="px-4 py-1 text-gray-50 tracking-wider bg-green-700 hover:bg-green-600 rounded" to={
                         {
-                            pathname: `/boka/${name.toLowerCase()}-${value}`,
+                            pathname: `/boka/${name.toLowerCase()}-${id}`,
                             state: {
-                                id: value,
+                                treatment_id: id,
                                 name: name,
                                 description: description,
                                 price: price,
@@ -46,7 +46,7 @@ function Treatment({ value, img, name, description, price, category, duration })
                                 duration: duration
                             }
                         }
-                    }>Boka</Link>
+                    }>Boka</button>
                     // Link to login if not online
                     : <Link to='/inloggning' className="px-4 py-1 text-gray-50 tracking-wider bg-green-700 hover:bg-green-600 rounded" >Boka</Link>
                 }

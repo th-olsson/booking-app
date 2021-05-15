@@ -6,32 +6,32 @@ function Bookings() {
     const [bookings, setBookings] = useState([])
 
     useEffect(() => {
-        //Get appoinments from db of logged in user
-        axios.get('http://localhost:1337/appointments')
+        //Get bookings from db of logged in user
+        axios.get('http://localhost:1337/bookings')
             .then(response => {
                 console.log(response.data)
                 const newBookings = response.data
                 setBookings(newBookings)
-            }
-            )
+            })
             .catch(error => {
                 console.log(error)
             })
-
     }, [])
 
     return (
+        // Bookings list
         <section className='flex flex-col items-center'>
-            {bookings.map(({ id, name, tel, treatment, price, date, time, duration }) =>
+            <h1 className='text-2xl font-semibold text-gray-900'>Bokningar</h1>
+            {bookings.map(({ id, name, tel, treatment, date, time, }) =>
                 <Booking key={id.toString()}
                     id={id}
                     name={name}
                     tel={tel}
-                    treatment={treatment}
-                    price={price}
+                    treatment_name={treatment.name}
+                    treatment_price={treatment.price}
                     date={date}
                     time={time}
-                    duration={duration}
+                    treatment_duration={treatment.duration}
                 />
             )}
         </section>

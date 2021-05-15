@@ -5,11 +5,10 @@ import axios from 'axios'
 function Book() {
     //Data passed via Link state
     const treatmentDetails = (useLocation().state);
-    const { name, id, price, duration } = treatmentDetails;
+    const { name, treatment_id, price, duration } = treatmentDetails;
 
     const [bookingDetails, setBookingDetails] = useState({
-        treatment_id: id,
-        treatment: name,
+        treatment: treatment_id,
         duration: duration
     });
 
@@ -37,8 +36,8 @@ function Book() {
         const currentDate = d.toLocaleDateString()
         setDateInput(currentDate)
 
-        // Get unavailable times of current date (booked times of current date in booked appointments)
-        axios.get(`http://localhost:1337/appointments?date=${currentDate}`)
+        // Get unavailable times of current date (booked times of current date in booked bookings)
+        axios.get(`http://localhost:1337/bookings?date=${currentDate}`)
             .then((response) => {
                 console.log(response)
                 const newUnavailableTimes = response.data.map(data => data.time)
@@ -67,7 +66,7 @@ function Book() {
         setDateInput(inputValue)
 
         // Update available times for selected date
-        axios.get(`http://localhost:1337/appointments?date=${inputValue}`)
+        axios.get(`http://localhost:1337/bookings?date=${inputValue}`)
             .then((response) => {
                 console.log(response)
                 const newUnavailableTimes = response.data.map(data => data.time)
@@ -76,7 +75,7 @@ function Book() {
                 // Set available times by filtering out possible times with unavailable times
                 const newAvailableTimes = possibleTimes.filter(possibleTime => !newUnavailableTimes.includes(possibleTime))
                 setAvailableTimes(newAvailableTimes)
-                
+
                 // Set timeInput to first of possible time
                 setTimeInput(newAvailableTimes[0])
             })
@@ -105,21 +104,20 @@ function Book() {
             tel: telInput
         }
 
-        // Complete appointment data (treatment details + form data)
-        const appointmentData = {
-            treatment_id: id,
-            treatment: name,
-            duration: duration,
+        // Complete booking data (booking details + form data)
+        const bookingData =
+        {
+            ...bookingDetails,
             ...formData
         }
 
-        // Submit appointment data to db
-        axios.post('http://localhost:1337/appointments', appointmentData)
+        // Submit booking data to db
+        axios.post('http://localhost:1337/bookings', bookingData)
             .then((response) => {
                 console.log(response)
 
-                // Update page to reload available times (TEMPORARY SOLUTION. REDIRECT INSTEAD?)
-                window.location.reload()    
+                // Update page to reload available times
+                window.location.reload()
             })
             .catch((err) => {
                 console.log(err)
