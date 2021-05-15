@@ -34,7 +34,7 @@ function Treatment({ id, img, name, description, price, category, duration }) {
                 <p className="px-2 py-1 ">{description}</p>
                 {loggedIn ?
                     // Book button
-                    <button className="px-4 py-1 text-gray-50 tracking-wider bg-green-700 hover:bg-green-600 rounded" to={
+                    <Link className="px-4 py-1 text-gray-50 tracking-wider bg-green-700 hover:bg-green-600 rounded" to={
                         {
                             pathname: `/boka/${name.toLowerCase()}-${id}`,
                             state: {
@@ -46,7 +46,7 @@ function Treatment({ id, img, name, description, price, category, duration }) {
                                 duration: duration
                             }
                         }
-                    }>Boka</button>
+                    }>Boka</Link>
                     // Link to login if not online
                     : <Link to='/inloggning' className="px-4 py-1 text-gray-50 tracking-wider bg-green-700 hover:bg-green-600 rounded" >Boka</Link>
                 }
