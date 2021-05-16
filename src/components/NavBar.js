@@ -2,13 +2,11 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
 
 function NavBar() {
-    const [jwt, setJwt] = useState('')
+    const [loggedIn, setLoggedIn] = useState()
 
     useEffect(() => {
-        setJwt(localStorage.getItem('jwt'))
-        console.log(jwt);
-        console.log(localStorage.getItem('jwt'))
-
+        const loggedInBool = JSON.parse(localStorage.getItem('loggedIn'))
+        setLoggedIn(loggedInBool)
     }, [])
 
     function logOutUser(e) {
@@ -28,10 +26,12 @@ function NavBar() {
                 </div>
                 <div className="flex items-center">
                     <li className="px-2 text-lg"><Link to='/admin'>Admin</Link></li>
-                    <li className="px-2 text-lg"><Link to='/bokningar'>Mina bokningar</Link></li>
 
-                    {jwt ?
-                        <li><button onClick={logOutUser} className='px-2 text-lg'>Logga ut</button></li>
+                    {loggedIn ?
+                        <>
+                            <li className="px-2 text-lg"><Link to='/bokningar'>Mina bokningar</Link></li>
+                            <li><button onClick={logOutUser} className='px-2 text-lg'>Logga ut</button></li>
+                        </>
                         :
                         <li className="px-2 text-lg "><Link to='/inloggning'>Logga in</Link></li>
                     }
