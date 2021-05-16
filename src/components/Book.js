@@ -3,11 +3,17 @@ import { useLocation } from 'react-router-dom'
 import axios from 'axios'
 
 function Book() {
+    //User id of logged in user gets set with useEffect
+    const [user_id, setUser_id] = useState()
+
+    const token = localStorage.getItem('jwt')
+
     //Data passed via Link state
     const treatmentDetails = (useLocation().state);
     const { name, treatment_id, price, duration } = treatmentDetails;
 
-    const [bookingDetails, setBookingDetails] = useState({
+    //Replace with treatments-table from db
+    const [bookingDetails] = useState({
         treatment: treatment_id,
         duration: duration
     });
@@ -52,6 +58,20 @@ function Book() {
             })
             .catch((err) => {
                 console.log(err)
+            })
+
+        // Get user info based on token
+        axios.get('http://localhost:1337/users/me', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+            .then((response) => {
+                console.log(response.data.id)
+                setUser_id(response.data.id)
+            })
+            .catch(error => {
+                console.log(error)
             })
 
     }, [])
@@ -108,7 +128,8 @@ function Book() {
         const bookingData =
         {
             ...bookingDetails,
-            ...formData
+            ...formData,
+            user: user_id
         }
 
         // Submit booking data to db
