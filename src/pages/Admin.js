@@ -3,9 +3,9 @@ import AddTreatment from '../components/AddTreatment'
 
 function Admin() {
     return (
-        <div>
+        <main>
             <AddTreatment />
-        </div>
+        </main>
     )
 }
 
