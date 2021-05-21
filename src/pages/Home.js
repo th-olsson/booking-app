@@ -2,8 +2,9 @@ import { Link } from "react-router-dom"
 
 function Home() {
     return (
-        <>
-            <h1  class="text-gray-800 text-3xl font-semibold text-center pb-10">Boka behandling</h1>
+        <main>
+            <h1 className="text-gray-800 text-3xl font-semibold text-center pb-10">Välkommen till Feelgood hälsocenter</h1>
+            <h2 className="text-gray-800 text-2xl font-semibold text-center pb-10">Välj behandling</h2>
             <div className="flex justify-evenly flex-wrap overflow-hidden">
                 <Link to='behandling/frisör/'>
                     <img src='https://images.unsplash.com/photo-1593269233759-427ba69acca5?' height='500' width='400' />
@@ -14,7 +15,7 @@ function Home() {
                     <h2 className="text-gray-750 text-lg pl-2 font-semibold">Skönhet</h2>
                 </Link>
             </div>
-        </>
+        </main>
     )
 }
 

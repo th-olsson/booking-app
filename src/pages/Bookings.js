@@ -1,10 +1,12 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Booking from "../components/Booking";
+import { loadStripe } from '@stripe/stripe-js'
 
 function Bookings() {
     const [bookings, setBookings] = useState([])
 
+    //Get jwt token
     const token = localStorage.getItem('jwt')
 
     useEffect(() => {
@@ -31,11 +33,7 @@ function Bookings() {
                 console.log(error)
             })
 
-
-
-
     }, [])
-
 
     return (
         // Bookings list

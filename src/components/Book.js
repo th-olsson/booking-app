@@ -1,18 +1,16 @@
 import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom'
+import { createPortal } from 'react-dom';
 import axios from 'axios'
 
-function Book() {
-    //User id of logged in user gets set with useEffect
+function Book({ name, treatment_id, price, duration, closeModal }) {
+
+    // Stores user id fetched from db
     const [user_id, setUser_id] = useState()
 
+    // Get token from local storage
     const token = localStorage.getItem('jwt')
 
-    //Data passed via Link state
-    const treatmentDetails = (useLocation().state);
-    const { name, treatment_id, price, duration } = treatmentDetails;
-
-    //Replace with treatments-table from db
+    // Replace with treatments-table from db
     const [bookingDetails] = useState({
         treatment: treatment_id,
         duration: duration
@@ -145,14 +143,18 @@ function Book() {
             })
     }
 
-    return (
-        <div className='flex place-content-center'>
-            <div className='flex flex-col justify-evenly rounded-md shadow-md py-2 px-5'>
-                <form onSubmit={bookTreatment} className="flex flex-col h-full justify-between">
+    // Render modal to portal
+    return createPortal(
+
+        <div className='modal-overlay'>
+            <div className='modal flex justify-center rounded-md shadow-md'>
+                
+                {/* Form to book treatment*/}
+                <form onSubmit={bookTreatment} className="flex flex-col my-4 mx-5">
                     <h2 className="text-xl font-semibold pl-2">Boka {duration} min {name} {price}kr</h2>
 
                     {/* Name input */}
-                    <label htmlFor='text' className="text-s font-semibold px-2 py-1">Ditt namn</label>
+                    <label htmlFor='text' className="text-s font-semibold px-2 py-1">Ange namn</label>
                     <input name='name'
                         id='name'
                         type='text'
@@ -194,14 +196,17 @@ function Book() {
                         type='tel'
                         onChange={telChange}
                         value={telInput}
-                        className="border-2 border-gray-200 focus:outline-none py-1 px-4 rounded-lg"
+                        className="border-2 border-gray-200 focus:outline-none py-1 px-4 rounded-lg"    
                     />
 
                     {/* Submit */}
-                    <button className="px-4 py-2 mt-2 text-white font-light tracking-wider bg-gray-900 hover:bg-gray-800 rounded">Bekräfta</button>
+                    <button className="px-4 py-1 text-gray-50 tracking-wider bg-green-700 hover:bg-green-600 rounded py-2 mt-2">Bekräfta bokning</button>
+                    <button onClick={closeModal} className="px-4 py-1 text-gray-50 tracking-wider bg-gray-700 hover:bg-gray-600 rounded py-2 mt-2">Avbryt</button>
                 </form>
             </div>
-        </div>
+        </div>,
+        // Portal root to render to
+        document.getElementById('portal')
     )
 }
 

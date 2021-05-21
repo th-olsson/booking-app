@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import Book from './Book'
 
 function Treatment({ id, img, name, description, price, category, duration }) {
-    const [treatmentInfo, seTreatmentInfo] = useState({
+    const [treatmentInfo] = useState({
         id: id,
         name: name,
         description: description,
@@ -12,12 +13,19 @@ function Treatment({ id, img, name, description, price, category, duration }) {
 
     const [loggedIn, setLoggedIn] = useState('')
 
+    // Book-button modal open or closed
+    const [isOpen, setIsOpen] = useState(false)
+
     useEffect(() => {
         const localLoggedIn = localStorage.getItem('loggedIn')
         const boolLoggedIn = JSON.parse(localLoggedIn)
 
         setLoggedIn(boolLoggedIn)
     }, [])
+
+    function openModal() {
+        setIsOpen(true)
+    }
 
     return (
         // Card
@@ -32,21 +40,20 @@ function Treatment({ id, img, name, description, price, category, duration }) {
                 </span>
 
                 <p className="px-2 py-1 ">{description}</p>
+
+                {/* Modal - form for booking treatment*/}
+                {isOpen &&
+                    <Book name={treatmentInfo.name}
+                        treatment_id={treatmentInfo.id}
+                        price={treatmentInfo.price}
+                        duration={treatmentInfo.duration}
+                        closeModal={() => setIsOpen(false)}
+                    />
+                }
+
                 {loggedIn ?
                     // Book button
-                    <Link className="px-4 py-1 text-gray-50 tracking-wider bg-green-700 hover:bg-green-600 rounded" to={
-                        {
-                            pathname: `/boka/${name.toLowerCase()}-${id}`,
-                            state: {
-                                treatment_id: id,
-                                name: name,
-                                description: description,
-                                price: price,
-                                category: category,
-                                duration: duration
-                            }
-                        }
-                    }>Boka</Link>
+                    <button onClick={openModal} className="px-4 py-1 text-gray-50 tracking-wider bg-green-700 hover:bg-green-600 rounded">Boka</button>
                     // Link to login if not online
                     : <Link to='/inloggning' className="px-4 py-1 text-gray-50 tracking-wider bg-green-700 hover:bg-green-600 rounded" >Boka</Link>
                 }
