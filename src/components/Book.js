@@ -1,69 +1,212 @@
-import { useState } from 'react';
-import { useLocation } from 'react-router-dom'
+import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
+import axios from 'axios'
 
-function Book({ returnToParent }) {
-    const treatmentDetails = (useLocation().state);
-    const { name, id, price } = treatmentDetails;
+function Book({ name, treatment_id, price, duration, closeModal }) {
 
-    const [bookingDetails, setBookingDetails] = useState({
-        treatmentId: id,
-        treatment: name,
-        name: '',
-        time: '',
-        tel: ''
+    // Stores user id fetched from db
+    const [user_id, setUser_id] = useState()
+
+    // Get token from local storage
+    const token = localStorage.getItem('jwt')
+
+    // Replace with treatments-table from db
+    const [bookingDetails] = useState({
+        treatment: treatment_id,
+        duration: duration
     });
 
-    console.log("initial booking details:");
-    console.log(bookingDetails);
+    // Form input states
+    const [nameInput, setNameInput] = useState()
+    const [dateInput, setDateInput] = useState()
+    const [timeInput, setTimeInput] = useState()
+    const [telInput, setTelInput] = useState()
 
-    function handleChange(e) {
-        const newBookingDetails = bookingDetails;
+    // List of all possible times
+    const [possibleTimes, setPossibleTimes] = useState([
+        "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
+        "12:00", "12:30", "13:00", "13:30", "14:00", "14:30",
+        "15:00", "15:30", "16:00"
+    ])
 
-        const inputName = e.target.name;
-        const inputValue = e.target.value;
+    const [unavailableTimes, setUnavailableTimes] = useState([])
 
-        switch (inputName) {
-            case "name":
-                newBookingDetails.name = inputValue;
-                break;
-            case "time":
-                newBookingDetails.time = inputValue;
-                break;
-            case "tel":
-                newBookingDetails.tel = inputValue;
-                break;
-            default:
-                console.log("No match");
-                return;
-        }
+    // Gets set with possible times with respect to unavailable times
+    const [availableTimes, setAvailableTimes] = useState([])
 
-        setBookingDetails(newBookingDetails);
+    useEffect(() => {
+        // Set date to current locale in yyyy-mm-dd
+        const d = new Date()
+        const currentDate = d.toLocaleDateString()
+        setDateInput(currentDate)
+
+        // Get unavailable times of current date (booked times of current date in booked bookings)
+        axios.get(`http://localhost:1337/bookings?date=${currentDate}`)
+            .then((response) => {
+                console.log(response)
+                const newUnavailableTimes = response.data.map(data => data.time)
+                setUnavailableTimes(newUnavailableTimes)
+
+                // Set available times by filtering out possible times with unavailable times
+                const newAvailableTimes = possibleTimes.filter(possibleTime => !newUnavailableTimes.includes(possibleTime))
+                setAvailableTimes(newAvailableTimes)
+
+                // Set timeInput to first of possible time
+                setTimeInput(newAvailableTimes[0])
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+
+        // Get user info based on token
+        axios.get('http://localhost:1337/users/me', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+            .then((response) => {
+                console.log(response.data.id)
+                setUser_id(response.data.id)
+            })
+            .catch(error => {
+                console.log(error)
+            })
+
+    }, [])
+
+    // Input onChange handlers
+    function nameChange(e) {
+        const inputValue = e.target.value
+        setNameInput(inputValue)
+    }
+    function dateChange(e) {
+        const inputValue = e.target.value
+        setDateInput(inputValue)
+
+        // Update available times for selected date
+        axios.get(`http://localhost:1337/bookings?date=${inputValue}`)
+            .then((response) => {
+                console.log(response)
+                const newUnavailableTimes = response.data.map(data => data.time)
+                setUnavailableTimes(newUnavailableTimes)
+
+                // Set available times by filtering out possible times with unavailable times
+                const newAvailableTimes = possibleTimes.filter(possibleTime => !newUnavailableTimes.includes(possibleTime))
+                setAvailableTimes(newAvailableTimes)
+
+                // Set timeInput to first of possible time
+                setTimeInput(newAvailableTimes[0])
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
+    function timeChange(e) {
+        const inputValue = e.target.value
+        setTimeInput(inputValue)
+    }
+    function telChange(e) {
+        const inputValue = e.target.value
+        setTelInput(inputValue)
     }
 
-    function handleSubmit(e) {
+    // On submit
+    function bookTreatment(e) {
         e.preventDefault();
 
-        console.log('Data to submit:');
-        console.log(bookingDetails);
+        // Form data
+        const formData = {
+            name: nameInput,
+            date: dateInput,
+            time: timeInput,
+            tel: telInput
+        }
 
-        returnToParent(bookingDetails);
+        // Complete booking data (booking details + form data)
+        const bookingData =
+        {
+            ...bookingDetails,
+            ...formData,
+            user: user_id
+        }
+
+        // Submit booking data to db
+        axios.post('http://localhost:1337/bookings', bookingData)
+            .then((response) => {
+                console.log(response)
+
+                // Update page to reload available times
+                window.location.reload()
+            })
+            .catch((err) => {
+                console.log(err)
+            })
     }
 
-    return (
-        <div className='flex place-content-center'>
-            <div className='flex flex-col justify-evenly rounded-md shadow-md py-2 px-5'>
-                <form onChange={handleChange} onSubmit={handleSubmit} className="flex flex-col h-full justify-between">
-                    <h2 className="text-xl font-semibold pl-2">Boka {name} {price} sek</h2>
-                    <label htmlFor='text' className="text-s font-semibold px-2 py-1">Ditt namn</label>
-                    <input type='text' name='name' required className='border-2 border-gray-200 focus:outline-none py-1 px-4 rounded-lg' />
-                    <label htmlFor='time' className="text-s font-semibold px-2 py-1">Önskad tid</label>
-                    <input type='time' name='time' required className='border-2 border-gray-200 focus:outline-none py-1 px-4 rounded-lg' />
-                    <label htmlFor='time' className="text-s font-semibold px-2 py-1">Telefonnummer</label>
-                    <input type='tel' name='tel' className="border-2 border-gray-200 focus:outline-none py-1 px-4 rounded-lg" />
-                    <button className="px-4 py-2 mt-2 text-white font-light tracking-wider bg-gray-900 hover:bg-gray-800 rounded">Bekräfta</button>
+    // Render modal to portal
+    return createPortal(
+
+        <div className='modal-overlay'>
+            <div className='modal flex justify-center rounded-md shadow-md'>
+                
+                {/* Form to book treatment*/}
+                <form onSubmit={bookTreatment} className="flex flex-col my-4 mx-5">
+                    <h2 className="text-xl font-semibold pl-2">Boka {duration} min {name} {price}kr</h2>
+
+                    {/* Name input */}
+                    <label htmlFor='text' className="text-s font-semibold px-2 py-1">Ange namn</label>
+                    <input name='name'
+                        id='name'
+                        type='text'
+                        required
+                        onChange={nameChange}
+                        value={nameInput}
+                        className='border-2 border-gray-200 focus:outline-none py-1 px-4 rounded-lg'
+                    >
+                    </input>
+
+                    {/* Date input */}
+                    <label htmlFor='date' className="text-s font-semibold px-2 py-1">Välj datum</label>
+                    <input name='date'
+                        id='date'
+                        type='date'
+                        onChange={dateChange}
+                        value={dateInput}
+                    />
+                    <label htmlFor='time' className="text-s font-semibold px-2 py-1">Vilken tid vill du börja behandlingen?</label>
+
+                    {/* Time input */}
+                    {<select name='time'
+                        id='time'
+                        onChange={timeChange}
+                        value={timeInput}
+                    >
+                        {/* List options of available times */}
+                        {availableTimes.map((availableTime) =>
+                            <option value={availableTime}>
+                                {availableTime}
+                            </option>
+                        )}
+                    </select>}
+
+                    {/* Tel input */}
+                    <label htmlFor='tel' className="text-s font-semibold px-2 py-1">Telefonnummer</label>
+                    <input name='tel'
+                        id='tel'
+                        type='tel'
+                        onChange={telChange}
+                        value={telInput}
+                        className="border-2 border-gray-200 focus:outline-none py-1 px-4 rounded-lg"    
+                    />
+
+                    {/* Submit */}
+                    <button className="px-4 py-1 text-gray-50 tracking-wider bg-green-700 hover:bg-green-600 rounded py-2 mt-2">Bekräfta bokning</button>
+                    <button onClick={closeModal} className="px-4 py-1 text-gray-50 tracking-wider bg-gray-700 hover:bg-gray-600 rounded py-2 mt-2">Avbryt</button>
                 </form>
             </div>
-        </div>
+        </div>,
+        // Portal root to render to
+        document.getElementById('portal')
     )
 }
 

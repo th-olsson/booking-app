@@ -3,7 +3,6 @@ import TreatmentList from '../components/TreatmentList'
 
 function TreatmentCategory() {
     const { id } = useParams();
-    console.log(id);
     return (
         <>
             <TreatmentList category={id} />
