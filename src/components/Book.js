@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import axios from 'axios'
 
-function Book({ name, treatment_id, price, duration, closeModal }) {
+function Book({ name, treatment_id, price, duration, closeModal, rebook }) {
 
     const [user_id, setUser_id] = useState()
 
@@ -13,10 +13,10 @@ function Book({ name, treatment_id, price, duration, closeModal }) {
     });
 
     // Form input states
-    const [nameInput, setNameInput] = useState()
-    const [dateInput, setDateInput] = useState()
-    const [timeInput, setTimeInput] = useState()
-    const [telInput, setTelInput] = useState()
+    const [nameInput, setNameInput] = useState('')
+    const [dateInput, setDateInput] = useState('')
+    const [timeInput, setTimeInput] = useState('')
+    const [telInput, setTelInput] = useState('')
 
     // List of all possible times
     const [possibleTimes] = useState([
@@ -32,6 +32,12 @@ function Book({ name, treatment_id, price, duration, closeModal }) {
     const token = localStorage.getItem('jwt')
 
     useEffect(() => {
+
+        // If modal is used in rebook, prepare with same name and tel values
+        if (rebook != null) {
+            setNameInput(rebook.name)
+            setTelInput(rebook.tel)
+        }
 
         // Set date to current locale in yyyy-mm-dd
         const d = new Date()
@@ -125,17 +131,33 @@ function Book({ name, treatment_id, price, duration, closeModal }) {
             user: user_id
         }
 
-        // Submit booking data to db
-        axios.post('http://localhost:1337/bookings', bookingData)
-            .then((response) => {
-                console.log(response)
+        //Submit data to db
 
-                // Update page to reload available times
-                window.location.reload()
-            })
-            .catch((err) => {
-                console.log(err)
-            })
+        if (rebook) {
+            // Update booking
+            axios.put(`http://localhost:1337/bookings/${rebook.id}`, bookingData)
+                .then((response) => {
+                    console.log(response)
+
+                    // Refresh page
+                    window.location.reload()
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+        } else {
+            // Create booking
+            axios.post('http://localhost:1337/bookings', bookingData)
+                .then((response) => {
+                    console.log(response)
+
+                    // Refresh page
+                    window.location.reload()
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+        }
     }
 
     // Render modal to portal

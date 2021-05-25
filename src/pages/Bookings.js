@@ -22,9 +22,7 @@ function Bookings() {
                 // Get bookings from db of logged in user
                 axios.get(`http://localhost:1337/bookings?user=${user_id}`)
                     .then(response => {
-                        console.log(response.data)
-                        const newBookings = response.data
-                        setBookings(newBookings)
+                        setBookings(response.data)
                     })
                     .catch(error => {
                         console.log(error)
