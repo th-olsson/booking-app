@@ -8,6 +8,7 @@ function Treatment({ id, img, name, description, price, category, duration }) {
         name: name,
         description: description,
         price: price,
+        duration: duration,
         category: category
     })
 
