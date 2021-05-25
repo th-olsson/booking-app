@@ -1,15 +1,16 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Booking from "../components/Booking";
-import { loadStripe } from '@stripe/stripe-js'
+// import { loadStripe } from '@stripe/stripe-js'
 
 function Bookings() {
     const [bookings, setBookings] = useState([])
 
-    //Get jwt token
+    //Get jwt token from localStorage
     const token = localStorage.getItem('jwt')
 
     useEffect(() => {
+
         // Get user info based on token
         axios.get('http://localhost:1337/users/me', {
             headers: {

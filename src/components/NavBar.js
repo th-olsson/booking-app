@@ -20,7 +20,7 @@ function NavBar() {
         <nav className="bg-white px-8 py-1 flex flex-col">
             <ul className="flex justify-between">
                 <div className="flex justify-between items-center">
-                    <li className="px-2 text-lg"><Link to='/'><img src="https://img.icons8.com/bubbles/50/000000/star.png" /></Link></li>
+                    <li className="px-2 text-lg"><Link to='/'><img src="https://img.icons8.com/bubbles/50/000000/star.png" alt='logo stjärna' /></Link></li>
                     <li className="px-2 text-lg"><Link to='/behandling/frisör'>Frisör</Link></li>
                     <li className="px-2 text-lg"><Link to='/behandling/skönhet'>Skönhet</Link></li>
                 </div>

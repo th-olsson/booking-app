@@ -4,11 +4,7 @@ import axios from 'axios'
 
 function Book({ name, treatment_id, price, duration, closeModal }) {
 
-    // Stores user id fetched from db
     const [user_id, setUser_id] = useState()
-
-    // Get token from local storage
-    const token = localStorage.getItem('jwt')
 
     // Replace with treatments-table from db
     const [bookingDetails] = useState({
@@ -23,18 +19,20 @@ function Book({ name, treatment_id, price, duration, closeModal }) {
     const [telInput, setTelInput] = useState()
 
     // List of all possible times
-    const [possibleTimes, setPossibleTimes] = useState([
+    const [possibleTimes] = useState([
         "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
         "12:00", "12:30", "13:00", "13:30", "14:00", "14:30",
         "15:00", "15:30", "16:00"
     ])
 
-    const [unavailableTimes, setUnavailableTimes] = useState([])
-
     // Gets set with possible times with respect to unavailable times
     const [availableTimes, setAvailableTimes] = useState([])
 
+    // Get token from local storage
+    const token = localStorage.getItem('jwt')
+
     useEffect(() => {
+
         // Set date to current locale in yyyy-mm-dd
         const d = new Date()
         const currentDate = d.toLocaleDateString()
@@ -44,11 +42,10 @@ function Book({ name, treatment_id, price, duration, closeModal }) {
         axios.get(`http://localhost:1337/bookings?date=${currentDate}`)
             .then((response) => {
                 console.log(response)
-                const newUnavailableTimes = response.data.map(data => data.time)
-                setUnavailableTimes(newUnavailableTimes)
+                const unavailableTimes = response.data.map(data => data.time)
 
                 // Set available times by filtering out possible times with unavailable times
-                const newAvailableTimes = possibleTimes.filter(possibleTime => !newUnavailableTimes.includes(possibleTime))
+                const newAvailableTimes = possibleTimes.filter(possibleTime => !unavailableTimes.includes(possibleTime))
                 setAvailableTimes(newAvailableTimes)
 
                 // Set timeInput to first of possible time
@@ -87,11 +84,10 @@ function Book({ name, treatment_id, price, duration, closeModal }) {
         axios.get(`http://localhost:1337/bookings?date=${inputValue}`)
             .then((response) => {
                 console.log(response)
-                const newUnavailableTimes = response.data.map(data => data.time)
-                setUnavailableTimes(newUnavailableTimes)
+                const unavailableTimes = response.data.map(data => data.time)
 
                 // Set available times by filtering out possible times with unavailable times
-                const newAvailableTimes = possibleTimes.filter(possibleTime => !newUnavailableTimes.includes(possibleTime))
+                const newAvailableTimes = possibleTimes.filter(possibleTime => !unavailableTimes.includes(possibleTime))
                 setAvailableTimes(newAvailableTimes)
 
                 // Set timeInput to first of possible time
@@ -148,7 +144,7 @@ function Book({ name, treatment_id, price, duration, closeModal }) {
 
         <div className='modal-overlay'>
             <div className='modal flex justify-center rounded-md shadow-md'>
-                
+
                 {/* Form to book treatment*/}
                 <form onSubmit={bookTreatment} className="flex flex-col my-4 mx-5">
                     <h2 className="text-xl font-semibold pl-2">Boka {duration} min {name} {price}kr</h2>
@@ -183,7 +179,7 @@ function Book({ name, treatment_id, price, duration, closeModal }) {
                     >
                         {/* List options of available times */}
                         {availableTimes.map((availableTime) =>
-                            <option value={availableTime}>
+                            <option value={availableTime} key={availableTime}>
                                 {availableTime}
                             </option>
                         )}
@@ -196,7 +192,7 @@ function Book({ name, treatment_id, price, duration, closeModal }) {
                         type='tel'
                         onChange={telChange}
                         value={telInput}
-                        className="border-2 border-gray-200 focus:outline-none py-1 px-4 rounded-lg"    
+                        className="border-2 border-gray-200 focus:outline-none py-1 px-4 rounded-lg"
                     />
 
                     {/* Submit */}
