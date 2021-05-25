@@ -24,14 +24,10 @@ function Treatment({ id, img, name, description, price, category, duration }) {
         setLoggedIn(boolLoggedIn)
     }, [])
 
-    function openModal() {
-        setIsOpen(true)
-    }
-
     return (
         // Card
         <article className="flex flex-col justify-evenly rounded-md shadow-md overflow-hidden text-center ">
-            <img src="https://source.unsplash.com/random/500x400" alt='produktbild'/>
+            <img src="https://source.unsplash.com/random/500x400" alt='produktbild' />
             <div className="flex flex-col h-full justify-between">
                 <h2 className="text-gray-900 text-lg pl-2 font-semibold">{name} </h2>
                 <span className=" flex justify-around border py-2 text-gray-800 text-sm pl-2 font-semibold">
@@ -54,12 +50,12 @@ function Treatment({ id, img, name, description, price, category, duration }) {
 
                 {loggedIn ?
                     // Book button
-                    <button onClick={openModal} className="px-4 py-1 text-gray-50 tracking-wider bg-green-700 hover:bg-green-600 rounded">Boka</button>
+                    <button onClick={() => setIsOpen(true)} className="px-4 py-1 text-gray-50 tracking-wider bg-green-700 hover:bg-green-600 rounded">Boka</button>
                     // Link to login if not online
                     : <Link to='/inloggning' className="px-4 py-1 text-gray-50 tracking-wider bg-green-700 hover:bg-green-600 rounded" >Boka</Link>
                 }
             </div>
-        </article>
+        </article >
     )
 }
 

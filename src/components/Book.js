@@ -68,7 +68,6 @@ function Book({ name, treatment_id, price, duration, closeModal }) {
             .catch(error => {
                 console.log(error)
             })
-
     }, [])
 
     // Input onChange handlers
