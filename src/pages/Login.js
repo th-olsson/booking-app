@@ -19,11 +19,11 @@ function Login() {
     return (
         <>
             {loggedIn ?
-                <h2 className="font-bold tracking-wider text-center text-3xl mb-8 text-gray-900">Du är inloggad som {username}</h2>
+                <h2 className="text-center text-2xl text-gray-800 my-5">Du är inloggad som {username}</h2>
                 :
                 <>
 
-                    <h2 className="font-bold tracking-wider text-center text-3xl mb-8 text-gray-900">Logga in</h2>
+                    <h2 className="text-center text-2xl text-gray-800 my-5">Logga in</h2>
                     <LoginForm />
                 </>
             }

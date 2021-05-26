@@ -26,7 +26,7 @@ function Treatment({ id, img, name, description, price, category, duration }) {
 
     return (
         // Card
-        <article className="flex flex-col justify-evenly rounded-md shadow-md overflow-hidden text-center ">
+        <article className="flex flex-col justify-evenly rounded-md shadow-md overflow-hidden text-center">
             <img src="https://source.unsplash.com/random/500x400" alt='produktbild' />
             <div className="flex flex-col h-full justify-between">
                 <h2 className="text-gray-900 text-lg pl-2 font-semibold">{name} </h2>

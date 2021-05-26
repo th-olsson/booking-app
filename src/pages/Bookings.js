@@ -37,7 +37,7 @@ function Bookings() {
     return (
         // Bookings list
         <main>
-            <h1 className='text-2xl font-semibold text-gray-900 text-center'>Bokningar</h1>
+            <h2 className='text-center text-2xl text-gray-800 my-5'>Bokningar</h2>
             <section className='flex flex-col items-center'>
                 {bookings.map(({ id, name, tel, treatment, date, time, }) =>
                     <Booking key={id.toString()}

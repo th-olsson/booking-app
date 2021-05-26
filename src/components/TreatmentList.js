@@ -25,7 +25,7 @@ function TreatmentList({ category }) {
 
     return (
         <main>
-            <h1 className='text-center text-2xl font-semibold text-gray-900'>Behandlingar inom {category}</h1>
+            <h1 className='text-center text-2xl text-gray-800 my-5'>Behandlingar inom {category}</h1>
 
             {/* Treatment list */}
             <section className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">

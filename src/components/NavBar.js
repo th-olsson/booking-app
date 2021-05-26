@@ -17,23 +17,23 @@ function NavBar() {
     }
 
     return (
-        <nav className="bg-white px-8 py-1 flex flex-col">
+        <nav className="px-2 flex flex-col align-end border">
             <ul className="flex justify-between">
                 <div className="flex justify-between items-center">
-                    <li className="px-2 text-lg"><Link to='/'><img src="https://img.icons8.com/bubbles/50/000000/star.png" alt='logo stjärna' /></Link></li>
-                    <li className="px-2 text-lg"><Link to='/behandling/frisör'>Frisör</Link></li>
-                    <li className="px-2 text-lg"><Link to='/behandling/skönhet'>Skönhet</Link></li>
+                    <li className="px-2"><Link to='/'><img src="https://img.icons8.com/carbon-copy/45/000000/lotus.png" alt='logotyp' /></Link></li>
+                    <li className="px-2 hover:bg-gray-100 rounded"><Link to='/behandling/frisör'>Frisör</Link></li>
+                    <li className="px-2 hover:bg-gray-100 rounded"><Link to='/behandling/skönhet'>Skönhet</Link></li>
                 </div>
                 <div className="flex items-center">
-                    <li className="px-2 text-lg"><Link to='/admin'>Admin</Link></li>
+                    <li className="px-2 hover:bg-gray-100 rounded"><Link to='/admin'>Admin</Link></li>
 
                     {loggedIn ?
                         <>
-                            <li className="px-2 text-lg"><Link to='/bokningar'>Mina bokningar</Link></li>
-                            <li><button onClick={logOutUser} className='px-2 text-lg'>Logga ut</button></li>
+                            <li className="px-2 hover:bg-gray-100 rounded"><Link to='/bokningar'>Mina bokningar</Link></li>
+                            <li><button onClick={logOutUser} className='px-2 hover:bg-gray-100 rounded'>Logga ut</button></li>
                         </>
                         :
-                        <li className="px-2 text-lg "><Link to='/inloggning'>Logga in</Link></li>
+                        <li className="px-2 hover:bg-gray-100 rounded"><Link to='/inloggning'>Logga in</Link></li>
                     }
                 </div>
             </ul>
