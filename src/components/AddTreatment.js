@@ -25,14 +25,23 @@ function AddTreatment() {
             name: name,
             description: description,
             duration: duration,
-            price: price,
-            image: image
+            price: price
         }
 
         // Submit new treatment to database
         axios.post('http://localhost:1337/treatments', formData)
             .then(res => {
                 console.log(res)
+                const data = new FormData()
+
+                data.append("files", image)
+                data.append("ref", "treatment")
+                data.append("refId", res.data.id)
+                data.append("field", "image")
+
+                axios.post("http://localhost:1337/upload", data)
+                    .then((e) => console.log(e))
+                    .catch((e) => console.log(e))
             })
             .catch(err => {
                 console.log(err)
@@ -62,7 +71,7 @@ function AddTreatment() {
 
     return (
         <>
-            <h2 className='text-xl font-semibold pl-2 text-center'>Lägg till ny behandling</h2>
+            <h2 className='text-center text-2xl text-gray-800 my-5'>Lägg till ny behandling</h2>
             <div className='flex place-content-center'>
                 <div className='flex flex-col justify-evenly rounded-md shadow-md py-2 px-5'>
                     <form onSubmit={handleSubmit} className="flex flex-col h-full justify-between">
