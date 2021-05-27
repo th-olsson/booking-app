@@ -2,9 +2,10 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Book from './Book'
 
-function Treatment({ id, img, name, description, price, category, duration }) {
+function Treatment({ id, image, name, description, price, category, duration }) {
     const [treatmentInfo] = useState({
         id: id,
+        image: image,
         name: name,
         description: description,
         price: price,
@@ -27,7 +28,8 @@ function Treatment({ id, img, name, description, price, category, duration }) {
     return (
         // Card
         <article className="flex flex-col justify-evenly rounded-md shadow-md overflow-hidden text-center">
-            <img src="https://source.unsplash.com/random/500x400" alt='produktbild' />
+
+            <img src={`http://localhost:1337${treatmentInfo.image.formats.small.url}`} alt='produktbild' className='object-cover h-56 w-full' />
             <div className="flex flex-col h-full justify-between">
                 <h2 className="text-gray-900 text-lg pl-2 font-semibold">{name} </h2>
                 <span className=" flex justify-around border py-2 text-gray-800 text-sm pl-2 font-semibold">

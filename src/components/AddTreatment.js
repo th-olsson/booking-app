@@ -143,6 +143,7 @@ function AddTreatment() {
                         <input name='image'
                             id='image'
                             type='file'
+                            required
                             onChange={imageChange}
                         />
 
