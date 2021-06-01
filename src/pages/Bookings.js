@@ -5,12 +5,12 @@ import Booking from "../components/Booking";
 
 function Bookings() {
     const [bookings, setBookings] = useState([])
+    const [totalPrice, setTotalPrice] = useState(0)
 
     //Get jwt token from localStorage
     const token = localStorage.getItem('jwt')
 
     useEffect(() => {
-
         // Get user info based on token
         axios.get('http://localhost:1337/users/me', {
             headers: {
@@ -22,6 +22,14 @@ function Bookings() {
                 // Get bookings from db of logged in user
                 axios.get(`http://localhost:1337/bookings?user=${user_id}`)
                     .then(response => {
+
+                        // Calculate and set total price of current bookings
+                        const prices = response.data.map((data) => data.treatment.price)
+                        const sumOfPrices = prices.reduce((a, b) => a + b)
+                        setTotalPrice(sumOfPrices)
+
+                        // Set bookings
+                        console.log(response.data)
                         setBookings(response.data)
                     })
                     .catch(error => {
@@ -38,8 +46,11 @@ function Bookings() {
         // Bookings list
         <main>
             <h2 className='text-center text-2xl text-gray-800 my-5'>Bokningar</h2>
+            <section className='text-center'>
+                <p>Totala kostnaden för dina bokningar: {totalPrice}</p>
+            </section>
             <section className='flex flex-col items-center'>
-                {bookings.map(({ id, name, tel, treatment, date, time, }) =>
+                {bookings.map(({ id, name, tel, treatment, date, time }) =>
                     <Booking key={id.toString()}
                         id={id}
                         name={name}
@@ -52,6 +63,7 @@ function Bookings() {
                     />
                 )}
             </section>
+
         </main>
     )
 }
