@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
+import { createPortal } from 'react-dom';
 import axios from 'axios'
 
-function AddTreatment() {
+function AddTreatment({ closeModal, crudType, treatmentInfo }) {
     // Note: Get this data from database instead of hard-coded?
     const categories = ['frisör', 'skönhet']
 
@@ -15,6 +16,14 @@ function AddTreatment() {
 
     useEffect(() => {
         setCategory(categories[0])
+
+        if (crudType === 'update') {
+            setCategory(treatmentInfo.category)
+            setName(treatmentInfo.name)
+            setDescription(treatmentInfo.description)
+            setDuration(treatmentInfo.duration)
+            setPrice(treatmentInfo.price)
+        }
     }, [])
 
     function handleSubmit(e) {
@@ -28,24 +37,54 @@ function AddTreatment() {
             price: price
         }
 
-        // Submit new treatment to database
-        axios.post('http://localhost:1337/treatments', formData)
-            .then(res => {
-                console.log(res)
-                const data = new FormData()
+        if (crudType === 'create') {
+            axios.post('http://localhost:1337/treatments', formData)
+                .then(res => {
+                    console.log(res)
+                    const data = new FormData()
 
-                data.append("files", image)
-                data.append("ref", "treatment")
-                data.append("refId", res.data.id)
-                data.append("field", "image")
+                    data.append("files", image)
+                    data.append("ref", "treatment")
+                    data.append("refId", res.data.id)
+                    data.append("field", "image")
 
-                axios.post("http://localhost:1337/upload", data)
-                    .then((e) => console.log(e))
-                    .catch((e) => console.log(e))
-            })
-            .catch(err => {
-                console.log(err)
-            })
+                    axios.post("http://localhost:1337/upload", data)
+                        .then((e) => {
+                            console.log(e)
+                        })
+                        .catch((e) => console.log(e))
+
+                    // Refresh page
+                    window.location.reload()
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        } else if (crudType === 'update') {
+            axios.put(`http://localhost:1337/treatments/${treatmentInfo.id}`, formData)
+
+                .then(res => {
+                    console.log(res)
+                    const data = new FormData()
+
+                    data.append("files", image)
+                    data.append("ref", "treatment")
+                    data.append("refId", res.data.id)
+                    data.append("field", "image")
+
+                    axios.post("http://localhost:1337/upload", data)
+                        .then((e) => {
+                            console.log(e)
+                        })
+                        .catch((e) => console.log(e))
+
+                    // Refresh page
+                    window.location.reload()
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        }
     }
 
     // onChange handlers for form inputs:
@@ -69,11 +108,11 @@ function AddTreatment() {
         setImage(file)
     }
 
-    return (
+    return createPortal(
         <>
-            <h2 className='text-center text-2xl text-gray-800 my-5'>Lägg till ny behandling</h2>
-            <div className='flex place-content-center'>
-                <div className='flex flex-col justify-evenly rounded-md shadow-md py-2 px-5'>
+            <div className='modal-overlay'>
+                <div className='modal flex justify-center rounded-md shadow-md py-4 px-5'>
+
                     <form onSubmit={handleSubmit} className="flex flex-col h-full justify-between">
 
                         {/* Select category */}
@@ -143,16 +182,22 @@ function AddTreatment() {
                         <input name='image'
                             id='image'
                             type='file'
-                            required
                             onChange={imageChange}
                         />
 
                         {/* Submit */}
-                        <button className='px-4 py-2 mt-2 text-white font-light tracking-wider bg-gray-900 hover:bg-gray-800 rounded'>Lägg till behandling</button>
+                        <button className='px-4 py-2 mt-2 text-white font-light tracking-wider bg-gray-900 hover:bg-gray-800 rounded'>
+                            {crudType === 'create' && 'Lägg till behandling'}
+
+                            {crudType === 'update' && 'Uppdatera behandling'}
+                        </button>
+                        {/* Close modal */}
+                        <button onClick={closeModal} className="px-4 py-1 text-gray-50 tracking-wider bg-gray-700 hover:bg-gray-600 rounded py-2 mt-2">Avbryt</button>
                     </form>
                 </div>
             </div>
-        </>
+        </>,
+        document.getElementById('portal')
     )
 }
 

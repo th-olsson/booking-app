@@ -164,10 +164,10 @@ function Book({ name, treatment_id, price, duration, closeModal, rebook }) {
     return createPortal(
 
         <div className='modal-overlay'>
-            <div className='modal flex justify-center rounded-md shadow-md'>
+            <div className='modal flex justify-center rounded-md shadow-md py-4 px-5'>
 
                 {/* Form to book treatment*/}
-                <form onSubmit={bookTreatment} className="flex flex-col my-4 mx-5">
+                <form onSubmit={bookTreatment} className="flex flex-col">
                     <h2 className="text-xl font-semibold pl-2">Boka {duration} min {name} {price}kr</h2>
 
                     {/* Name input */}
@@ -218,6 +218,7 @@ function Book({ name, treatment_id, price, duration, closeModal, rebook }) {
 
                     {/* Submit */}
                     <button className="px-4 py-1 text-gray-50 tracking-wider bg-green-700 hover:bg-green-600 rounded py-2 mt-2">Bekräfta bokning</button>
+                    {/* Close modal */}
                     <button onClick={closeModal} className="px-4 py-1 text-gray-50 tracking-wider bg-gray-700 hover:bg-gray-600 rounded py-2 mt-2">Avbryt</button>
                 </form>
             </div>
