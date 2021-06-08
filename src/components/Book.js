@@ -135,7 +135,11 @@ function Book({ name, treatment_id, price, duration, closeModal, rebook }) {
 
         if (rebook) {
             // Update booking
-            axios.put(`http://localhost:1337/bookings/${rebook.id}`, bookingData)
+            axios.put(`http://localhost:1337/bookings/${rebook.id}`, bookingData, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
                 .then((response) => {
                     console.log(response)
 
@@ -147,7 +151,11 @@ function Book({ name, treatment_id, price, duration, closeModal, rebook }) {
                 })
         } else {
             // Create booking
-            axios.post('http://localhost:1337/bookings', bookingData)
+            axios.post('http://localhost:1337/bookings', bookingData, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
                 .then((response) => {
                     console.log(response)
 

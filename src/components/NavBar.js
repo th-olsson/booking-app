@@ -1,12 +1,36 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
+import axios from 'axios'
 
 function NavBar() {
     const [loggedIn, setLoggedIn] = useState()
+    const [isAdmin, setIsAdmin] = useState()
+
+    // Get token from local storage
+    const token = localStorage.getItem('jwt')
 
     useEffect(() => {
         const loggedInBool = JSON.parse(localStorage.getItem('loggedIn'))
         setLoggedIn(loggedInBool)
+
+        // Get user info based on token
+        if (token != null) {
+            axios.get('http://localhost:1337/users/me', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+                .then((response) => {
+                    console.log('User data: ', response.data)
+
+                    if (response.data.role.name === 'Admin') {
+                        setIsAdmin(true)
+                    }
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+        }
     }, [])
 
     function logOutUser(e) {
@@ -25,8 +49,9 @@ function NavBar() {
                     <li className="px-2 hover:bg-gray-100 rounded"><Link to='/behandling/skönhet'>Skönhet</Link></li>
                 </div>
                 <div className="flex items-center">
-                    <li className="px-2 hover:bg-gray-100 rounded"><Link to='/admin'>Admin</Link></li>
-
+                    {isAdmin &&
+                        <li className="px-2 hover:bg-gray-100 rounded"><Link to='/admin'>Admin</Link></li>
+                    }
                     {loggedIn ?
                         <>
                             <li className="px-2 hover:bg-gray-100 rounded"><Link to='/bokningar'>Mina bokningar</Link></li>

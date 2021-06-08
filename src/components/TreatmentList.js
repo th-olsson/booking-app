@@ -7,20 +7,39 @@ function TreatmentList({ category }) {
     const currentUrlCategory = category
     // Stores treatments from db
     const [treatments, setTreatments] = useState([])
+    const [isAdmin, setIsAdmin] = useState()
+
+    // Get token from local storage
+    const token = localStorage.getItem('jwt')
 
     useEffect(() => {
         // Get treatments from db
         axios.get('http://localhost:1337/treatments/')
             .then(response => {
-                // Set fetched data to state
-                setTreatments(response.data)
-                // Log fetched data
                 console.log(response.data)
+                setTreatments(response.data)
             })
             .catch((err) => {
-                // Log error message
                 console.log(err)
             })
+        // Get user info based on token
+        if (token != null) {
+            axios.get('http://localhost:1337/users/me', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+                .then((response) => {
+                    console.log('User data: ', response.data)
+
+                    if (response.data.role.name === 'Admin') {
+                        setIsAdmin(true)
+                    }
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+        }
     }, [])
 
     return (
@@ -42,6 +61,8 @@ function TreatmentList({ category }) {
                         price={price}
                         category={category}
                         duration={duration}
+                        token={token}
+                        isAdmin={isAdmin}
                     />)}
             </section>
         </main>

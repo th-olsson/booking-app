@@ -4,7 +4,7 @@ import AdminTreatment from './AdminTreatment'
 import Book from './Book'
 import axios from 'axios'
 
-function Treatment({ id, image, name, description, price, category, duration }) {
+function Treatment({ id, image, name, description, price, category, duration, token, isAdmin }) {
     const [treatmentInfo] = useState({
         id: id,
         image: image,
@@ -32,8 +32,11 @@ function Treatment({ id, image, name, description, price, category, duration }) 
 
     const deleteTreatment = () => {
 
-        axios.delete(`http://localhost:1337/treatments/${id}`)
-
+        axios.delete(`http://localhost:1337/treatments/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
             .then(res => {
                 console.log(res)
                 // Refresh page
@@ -84,10 +87,11 @@ function Treatment({ id, image, name, description, price, category, duration }) 
                     // Book button
                     <div className='flex flex-col'>
                         <button onClick={() => setBookIsOpen(true)} className="px-4 py-1 text-gray-50 tracking-wider bg-green-700 hover:bg-green-600 ">Boka</button>
-                        <div className='flex w-full justify-between'>
-                            <button onClick={() => setUpdateIsOpen(true)} className="px-4 py-1 text-gray-50 tracking-wider bg-gray-700 hover:bg-gray-600  w-1/2">Ändra</button>
-                            <button onClick={deleteTreatment} className="px-4 py-1 text-gray-50 tracking-wider bg-red-700 hover:bg-red-600  w-1/2">Ta bort</button>
-                        </div>
+                        {isAdmin &&
+                            <div className='flex w-full justify-between'>
+                                <button onClick={() => setUpdateIsOpen(true)} className="px-4 py-1 text-gray-50 tracking-wider bg-gray-700 hover:bg-gray-600  w-1/2">Ändra</button>
+                                <button onClick={deleteTreatment} className="px-4 py-1 text-gray-50 tracking-wider bg-red-700 hover:bg-red-600  w-1/2">Ta bort</button>
+                            </div>}
                     </div>
                     // Link to login if not online
                     : <Link to='/inloggning' className="px-4 py-1 text-gray-50 tracking-wider bg-green-700 hover:bg-green-600 rounded" >Boka</Link>

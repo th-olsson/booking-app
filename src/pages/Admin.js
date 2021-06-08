@@ -15,7 +15,7 @@ function Admin() {
                 {isOpen &&
                     <>
                         <AdminTreatment
-                            closeModal={() => {setIsOpen(false)}}
+                            closeModal={() => { setIsOpen(false) }}
                             crudType={'create'}
                         />
 
@@ -23,7 +23,7 @@ function Admin() {
                 }
                 {/* Button to open  */
                     !isOpen &&
-                    <button onClick={() => {setIsOpen(true)}} className="px-4 py-1 tracking-wide hover:bg-gray-100 border rounded">Lägg till behandling</button>
+                    <button onClick={() => { setIsOpen(true) }} className="px-4 py-1 tracking-wide hover:bg-gray-100 border rounded">Lägg till behandling</button>
                 }
             </div>
         </main>

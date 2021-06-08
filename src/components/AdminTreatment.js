@@ -6,6 +6,9 @@ function AddTreatment({ closeModal, crudType, treatmentInfo }) {
     // Note: Get this data from database instead of hard-coded?
     const categories = ['frisör', 'skönhet']
 
+    // Get token from local storage
+    const token = localStorage.getItem('jwt')
+
     // States for form inputs
     const [category, setCategory] = useState('')
     const [name, setName] = useState('')
@@ -37,8 +40,13 @@ function AddTreatment({ closeModal, crudType, treatmentInfo }) {
             price: price
         }
 
+        // Create or update treatment
         if (crudType === 'create') {
-            axios.post('http://localhost:1337/treatments', formData)
+            axios.post('http://localhost:1337/treatments', formData, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
                 .then(res => {
                     console.log(res)
                     const data = new FormData()
@@ -48,7 +56,11 @@ function AddTreatment({ closeModal, crudType, treatmentInfo }) {
                     data.append("refId", res.data.id)
                     data.append("field", "image")
 
-                    axios.post("http://localhost:1337/upload", data)
+                    axios.post("http://localhost:1337/upload", data, {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    })
                         .then((e) => {
                             console.log(e)
                         })
@@ -61,8 +73,11 @@ function AddTreatment({ closeModal, crudType, treatmentInfo }) {
                     console.log(err)
                 })
         } else if (crudType === 'update') {
-            axios.put(`http://localhost:1337/treatments/${treatmentInfo.id}`, formData)
-
+            axios.put(`http://localhost:1337/treatments/${treatmentInfo.id}`, formData, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
                 .then(res => {
                     console.log(res)
                     const data = new FormData()
@@ -72,7 +87,11 @@ function AddTreatment({ closeModal, crudType, treatmentInfo }) {
                     data.append("refId", res.data.id)
                     data.append("field", "image")
 
-                    axios.post("http://localhost:1337/upload", data)
+                    axios.post("http://localhost:1337/upload", data, {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    })
                         .then((e) => {
                             console.log(e)
                         })

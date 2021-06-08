@@ -7,9 +7,15 @@ function Booking({ id, name, tel, treatment_id, treatment_name, treatment_price,
     // Rebook-button modal open or closed
     const [isOpen, setIsOpen] = useState(false)
 
+    const token = localStorage.getItem('jwt')
+
     function cancel() {
         // Remove booking from db
-        axios.delete(`http://localhost:1337/bookings/${id}`)
+        axios.delete(`http://localhost:1337/bookings/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
             .then(res => {
                 console.log(res)
                 // Refresh page
@@ -51,7 +57,7 @@ function Booking({ id, name, tel, treatment_id, treatment_name, treatment_price,
                     price={treatment_price}
                     duration={treatment_duration}
                     closeModal={() => setIsOpen(false)}
-                    rebook={{id: id, name: name, tel: tel }}
+                    rebook={{ id: id, name: name, tel: tel }}
                 />
             }
 
