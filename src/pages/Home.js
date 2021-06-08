@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom"
-import dotenv from 'dotenv'
-import firestore from "../components/FirebaseConfig"
+// import dotenv from 'dotenv'
+// import firestore from "../components/FirebaseConfig"
 
 
-dotenv.config()
+// dotenv.config()
 
-console.log(process.env)
-console.log(firestore)
+// console.log(process.env)
+// console.log(firestore)
 
 function Home() {
     return (
