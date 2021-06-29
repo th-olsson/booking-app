@@ -45,7 +45,11 @@ function Book({ name, treatment_id, price, duration, closeModal, rebook }) {
         setDateInput(currentDate)
 
         // Get unavailable times of current date (booked times of current date in booked bookings)
-        axios.get(`https://booking-app-strapi.herokuapp.com/bookings?date=${currentDate}`)
+        axios.get(`https://booking-app-strapi.herokuapp.com/bookings?date=${currentDate}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
             .then((response) => {
                 console.log(response)
                 const unavailableTimes = response.data.map(data => data.time)
