@@ -1,103 +1,71 @@
-import TreatmentCard from './TreatmentCard'
-import { useState } from 'react';
+import Treatment from './Treatment'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 
 function TreatmentList({ category }) {
 
-    const currentUrlCategory = category;
+    const currentUrlCategory = category
+    // Stores treatments from db
+    const [treatments, setTreatments] = useState([])
+    const [isAdmin, setIsAdmin] = useState()
 
-    //Example data
-    const [treatments] = useState([
-        {
-            id: 1,
-            name: "Herrklippning",
-            description: "20-45 minuter, inklusive tvätt & fön",
-            price: 450,
-            category: "frisör"
-        },
-        {
-            id: 2,
-            name: "Damklippning",
-            description: "30-60 minuter, inklusive tvätt & fön",
-            price: 550,
-            category: "frisör"
-        },
-        {
-            id: 3,
-            name: "Färgning herr & dam",
-            description: "150 minuter. Konsulation, tvätt och styling ingår",
-            price: 3000,
-            category: "frisör"
-        },
-        {
-            id: 4,
-            name: "Microneedling",
-            description: "60 minuter. Behandling för hela ansiktet med serum och mask",
-            price: 800,
-            category: "skönhet"
-        },
-        {
-            id: 5,
-            name: "Hårborttagning helkropp",
-            description: "150 minuter. Hårborttagning med diodlaser för hela kroppen inklusive ansikte",
-            price: 3000,
-            category: "skönhet"
-        },
-        {
-            id: 6,
-            name: "LED-ljusterapi",
-            description: "45 minuter. LED-ljusterapi med rengöring, passande mask och avslutande ekologisk kräm.",
-            price: 650,
-            category: "skönhet"
-        },
-        {
-            id: 7,
-            name: "Botox 1 område",
-            description: "30 minuter. Välj mellan panna, glabella, kråksparkar, haka, bunnylines, lipflip, rökrynkor överläpp.",
-            price: 2500,
-            category: "skönhet"
-        },
-        {
-            id: 8,
-            name: "Vitamintest",
-            description: "25 minuter. Vitastiq test ger dig svar på 26 näringsämnen och dess nivåer och vad du behöver för att balansera dessa.",
-            price: 450,
-            category: "skönhet"
-        },
-        {
-            id: 9,
-            name: "Pensionär dam",
-            description: "30 minuter. Gäller endast ålderspensionär Vardagar 10:00 - 15:00",
-            price: 290,
-            category: "frisör"
-        },
-        {
-            id: 10,
-            name: "Pensionär herr",
-            description: "30 minuter. Gäller endast ålderspensionär Vardagar 10:00 - 15:00",
-            price: 240,
-            category: "frisör"
+    // Get token from local storage
+    const token = localStorage.getItem('jwt')
+
+    useEffect(() => {
+        // Get treatments from db
+        axios.get('http://localhost:1337/treatments/')
+            .then(response => {
+                console.log(response.data)
+                setTreatments(response.data)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+        // Get user info based on token
+        if (token != null) {
+            axios.get('http://localhost:1337/users/me', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+                .then((response) => {
+                    console.log('User data: ', response.data)
+
+                    if (response.data.role.name === 'Admin') {
+                        setIsAdmin(true)
+                    }
+                })
+                .catch(error => {
+                    console.log(error)
+                })
         }
-
-
-    ]);
+    }, [])
 
     return (
-        <>
-            {/* <h1>Behandlingar inom {category}</h1> */}
-            <section className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                {treatments.map(({ id, name, description, price, category }) =>
+        <main>
+            <h1 className='text-center text-2xl text-gray-800 my-5'>Behandlingar inom {category}</h1>
 
+            {/* Treatment list */}
+            <section className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+
+                {/* Treatments */}
+                {treatments.map(({ id, image, name, description, price, category, duration }) =>
                     currentUrlCategory === category &&
-                    <TreatmentCard
+                    <Treatment
                         key={id.toString()}
-                        value={id}
+                        id={id}
+                        image={image}
                         name={name}
                         description={description}
                         price={price}
                         category={category}
+                        duration={duration}
+                        token={token}
+                        isAdmin={isAdmin}
                     />)}
             </section>
-        </>
+        </main>
     )
 }
 
