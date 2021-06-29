@@ -11,7 +11,7 @@ function Booking({ id, name, tel, treatment_id, treatment_name, treatment_price,
 
     function cancel() {
         // Remove booking from db
-        axios.delete(`http://localhost:1337/bookings/${id}`, {
+        axios.delete(`https://booking-app-strapi.herokuapp.com/bookings/${id}`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }

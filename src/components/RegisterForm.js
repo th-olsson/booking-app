@@ -43,7 +43,7 @@ function RegisterForm() {
         e.preventDefault()
 
         // Submit new user to database
-        axios.post('http://localhost:1337/auth/local/register', formData)
+        axios.post('https://booking-app-strapi.herokuapp.com/auth/local/register', formData)
             .then((response) => {
                 console.log(response)
                 setRegisterSuccess(true);

@@ -24,7 +24,7 @@ function LoginForm() {
             password: passwordInput
         }
 
-        axios.post('http://localhost:1337/auth/local', {
+        axios.post('https://booking-app-strapi.herokuapp.com/auth/local', {
             identifier: formData.username,
             password: formData.password
         })

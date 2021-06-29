@@ -14,7 +14,8 @@ function Bookings() {
 
     useEffect(() => {
         // Get user info based on token
-        axios.get('http://localhost:1337/users/me', {
+        console.log(token   )
+        axios.get('https://booking-app-strapi.herokuapp.com/users/me', {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -22,7 +23,7 @@ function Bookings() {
             .then((response) => {
                 const user_id = response.data.id
                 // Get bookings from db of logged in user
-                axios.get(`http://localhost:1337/bookings?user=${user_id}`)
+                axios.get(`https://booking-app-strapi.herokuapp.com/bookings?user=${user_id}`)
                     .then(response => {
 
                         // Calculate and set total price of current bookings
@@ -55,13 +56,13 @@ function Bookings() {
 
         console.log(response)
         const sessionId = await response.data.id.id;
-        
+
         console.log(sessionId)
 
         // When the customer clicks on the button, redirect them to Checkout.
         const result = await stripe.redirectToCheckout({
             sessionId: sessionId
-            
+
         });
 
         if (result.error) {
