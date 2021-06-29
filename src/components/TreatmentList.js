@@ -14,7 +14,7 @@ function TreatmentList({ category }) {
 
     useEffect(() => {
         // Get treatments from db
-        axios.get('http://localhost:1337/treatments/')
+        axios.get('https://booking-app-strapi.herokuapp.com/treatments/')
             .then(response => {
                 console.log(response.data)
                 setTreatments(response.data)
@@ -24,7 +24,7 @@ function TreatmentList({ category }) {
             })
         // Get user info based on token
         if (token != null) {
-            axios.get('http://localhost:1337/users/me', {
+            axios.get('https://booking-app-strapi.herokuapp.com/users/me', {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

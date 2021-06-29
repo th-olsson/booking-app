@@ -14,7 +14,7 @@ function Bookings() {
 
     useEffect(() => {
         // Get user info based on token
-        axios.get('http://localhost:1337/users/me', {
+        axios.get('http://booking-app-strapi.herokuapp/users/me', {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -22,7 +22,7 @@ function Bookings() {
             .then((response) => {
                 const user_id = response.data.id
                 // Get bookings from db of logged in user
-                axios.get(`http://localhost:1337/bookings?user=${user_id}`)
+                axios.get(`http://booking-app-strapi.herokuapp/bookings?user=${user_id}`)
                     .then(response => {
 
                         // Calculate and set total price of current bookings

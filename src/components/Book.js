@@ -45,7 +45,7 @@ function Book({ name, treatment_id, price, duration, closeModal, rebook }) {
         setDateInput(currentDate)
 
         // Get unavailable times of current date (booked times of current date in booked bookings)
-        axios.get(`http://localhost:1337/bookings?date=${currentDate}`)
+        axios.get(`https://booking-app-strapi.herokuapp.com/bookings?date=${currentDate}`)
             .then((response) => {
                 console.log(response)
                 const unavailableTimes = response.data.map(data => data.time)
@@ -62,7 +62,7 @@ function Book({ name, treatment_id, price, duration, closeModal, rebook }) {
             })
 
         // Get user info based on token
-        axios.get('http://localhost:1337/users/me', {
+        axios.get('https://booking-app-strapi.herokuapp.com/users/me', {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -86,7 +86,7 @@ function Book({ name, treatment_id, price, duration, closeModal, rebook }) {
         setDateInput(inputValue)
 
         // Update available times for selected date
-        axios.get(`http://localhost:1337/bookings?date=${inputValue}`)
+        axios.get(`https://booking-app-strapi.herokuapp.com/bookings?date=${inputValue}`)
             .then((response) => {
                 console.log(response)
                 const unavailableTimes = response.data.map(data => data.time)
@@ -135,7 +135,7 @@ function Book({ name, treatment_id, price, duration, closeModal, rebook }) {
 
         if (rebook) {
             // Update booking
-            axios.put(`http://localhost:1337/bookings/${rebook.id}`, bookingData, {
+            axios.put(`https://booking-app-strapi.herokuapp.com/bookings/${rebook.id}`, bookingData, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -151,7 +151,7 @@ function Book({ name, treatment_id, price, duration, closeModal, rebook }) {
                 })
         } else {
             // Create booking
-            axios.post('http://localhost:1337/bookings', bookingData, {
+            axios.post('https://booking-app-strapi.herokuapp.com/bookings', bookingData, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
