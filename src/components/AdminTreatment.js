@@ -42,7 +42,7 @@ function AddTreatment({ closeModal, crudType, treatmentInfo }) {
 
         // Create or update treatment
         if (crudType === 'create') {
-            axios.post('http://localhost:1337/treatments', formData, {
+            axios.post('https://booking-app-strapi.herokuapp.com/treatments', formData, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -56,7 +56,7 @@ function AddTreatment({ closeModal, crudType, treatmentInfo }) {
                     data.append("refId", res.data.id)
                     data.append("field", "image")
 
-                    axios.post("http://localhost:1337/upload", data, {
+                    axios.post("https://booking-app-strapi.herokuapp.com/upload", data, {
                         headers: {
                             Authorization: `Bearer ${token}`
                         }
@@ -73,7 +73,7 @@ function AddTreatment({ closeModal, crudType, treatmentInfo }) {
                     console.log(err)
                 })
         } else if (crudType === 'update') {
-            axios.put(`http://localhost:1337/treatments/${treatmentInfo.id}`, formData, {
+            axios.put(`https://booking-app-strapi.herokuapp.com/treatments/${treatmentInfo.id}`, formData, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -87,7 +87,7 @@ function AddTreatment({ closeModal, crudType, treatmentInfo }) {
                     data.append("refId", res.data.id)
                     data.append("field", "image")
 
-                    axios.post("http://localhost:1337/upload", data, {
+                    axios.post("https://booking-app-strapi.herokuapp.com/upload", data, {
                         headers: {
                             Authorization: `Bearer ${token}`
                         }
