@@ -51,7 +51,7 @@ function Treatment({ id, image, name, description, price, category, duration, to
         // Card
         <article className="flex flex-col justify-evenly rounded-md shadow-md overflow-hidden text-center">
             {treatmentInfo.image &&
-                <img src={`https://booking-app-strapi.herokuapp.com${treatmentInfo.image.formats.small.url}`} alt='produktbild' className='object-cover h-56 w-full' />
+                <img src={`${treatmentInfo.image.formats.small.url}`} alt='produktbild' className='object-cover h-56 w-full' />
             }
             <div className="flex flex-col h-full justify-between">
                 <h2 className="text-gray-900 text-lg pl-2 font-semibold">{name} </h2>
