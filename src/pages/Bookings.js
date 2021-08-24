@@ -14,7 +14,7 @@ function Bookings() {
 
     useEffect(() => {
         // Get user info based on token
-        console.log(token   )
+        console.log(token)
         axios.get('https://booking-app-strapi.herokuapp.com/users/me', {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -51,7 +51,19 @@ function Bookings() {
         const stripe = await stripePromise;
 
         // Call your backend to create the Checkout Session
-        const response = await axios.post('http://localhost:4242/create-checkout-session', {price: totalPrice})
+        // const response = await axios.post('https://booking-app-stripe.herokuapp.com/create-checkout-session', { price: totalPrice }, { headers: { 'Access-Control-Allow-Origin': '*' } })
+        const response = await axios(
+            {
+                method: 'POST',
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+                    'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token'
+                },
+                url: 'https://booking-app-stripe.herokuapp.com/create-checkout-session',
+                data: { price: totalPrice },
+            })
+
 
         console.log(response)
         const sessionId = await response.data.id.id;
