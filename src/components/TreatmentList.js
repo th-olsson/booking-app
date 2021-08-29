@@ -16,13 +16,12 @@ function TreatmentList({ category }) {
         // Get treatments from db
         axios.get('https://booking-app-strapi.herokuapp.com/treatments/')
             .then(response => {
-                console.log(response.data)
                 setTreatments(response.data)
             })
             .catch((err) => {
                 console.log(err)
             })
-        // Get user info based on token
+        // Get user info based on token and check if admin
         if (token != null) {
             axios.get('https://booking-app-strapi.herokuapp.com/users/me', {
                 headers: {
@@ -30,7 +29,6 @@ function TreatmentList({ category }) {
                 }
             })
                 .then((response) => {
-                    console.log('User data: ', response.data)
 
                     if (response.data.role.name === 'Admin') {
                         setIsAdmin(true)

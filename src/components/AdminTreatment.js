@@ -48,7 +48,6 @@ function AddTreatment({ closeModal, crudType, treatmentInfo }) {
                 }
             })
                 .then(res => {
-                    console.log(res)
                     const data = new FormData()
 
                     data.append("files", image)
@@ -79,7 +78,6 @@ function AddTreatment({ closeModal, crudType, treatmentInfo }) {
                 }
             })
                 .then(res => {
-                    console.log(res)
                     const data = new FormData()
 
                     data.append("files", image)
