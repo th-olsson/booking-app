@@ -51,7 +51,6 @@ function Book({ name, treatment_id, price, duration, closeModal, rebook }) {
             }
         })
             .then((response) => {
-                console.log(response)
                 const unavailableTimes = response.data.map(data => data.time)
 
                 // Set available times by filtering out possible times with unavailable times
@@ -65,14 +64,13 @@ function Book({ name, treatment_id, price, duration, closeModal, rebook }) {
                 console.log(err)
             })
 
-        // Get user info based on token
+        // Get user info based on token and set user id in state
         axios.get('https://booking-app-strapi.herokuapp.com/users/me', {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         })
             .then((response) => {
-                console.log(response.data.id)
                 setUser_id(response.data.id)
             })
             .catch(error => {
@@ -92,7 +90,6 @@ function Book({ name, treatment_id, price, duration, closeModal, rebook }) {
         // Update available times for selected date
         axios.get(`https://booking-app-strapi.herokuapp.com/bookings?date=${inputValue}`)
             .then((response) => {
-                console.log(response)
                 const unavailableTimes = response.data.map(data => data.time)
 
                 // Set available times by filtering out possible times with unavailable times
@@ -145,8 +142,6 @@ function Book({ name, treatment_id, price, duration, closeModal, rebook }) {
                 }
             })
                 .then((response) => {
-                    console.log(response)
-
                     // Refresh page
                     window.location.reload()
                 })
@@ -161,8 +156,6 @@ function Book({ name, treatment_id, price, duration, closeModal, rebook }) {
                 }
             })
                 .then((response) => {
-                    console.log(response)
-
                     // Refresh page
                     window.location.reload()
                 })

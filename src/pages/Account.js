@@ -17,8 +17,6 @@ function Account() {
     const token = localStorage.getItem('jwt')
 
     useEffect(() => {
-        console.log(token)
-
         // Get user info from db
         axios.get(`https://booking-app-strapi.herokuapp.com/users/me`, {
             headers: {
@@ -26,7 +24,6 @@ function Account() {
             }
         })
             .then((response) => {
-                console.log(response.data)
 
                 setUserDataDisplay({
                     ...userData,
@@ -53,9 +50,7 @@ function Account() {
                 Authorization: `Bearer ${token}`
             }
         })
-            .then((response) => {
-                console.log(response.data)
-
+            .then(() => {
                 // Fetch new email and update state
                 axios.get(`https://booking-app-strapi.herokuapp.com/users/me`, {
                     headers: {
@@ -82,9 +77,6 @@ function Account() {
                 Authorization: `Bearer ${token}`
             }
         })
-            .then((response) => {
-                console.log(response.data)
-            })
             .catch((err) => {
                 console.log(err)
             })

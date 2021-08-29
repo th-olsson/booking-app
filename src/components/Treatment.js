@@ -38,7 +38,6 @@ function Treatment({ id, image, name, description, price, category, duration, to
             }
         })
             .then(res => {
-                console.log(res)
                 // Refresh page
                 window.location.reload()
             })

@@ -29,17 +29,11 @@ function LoginForm() {
             password: formData.password
         })
             .then(response => {
-                console.log('User profile', response.data.user);
-                console.log('User token', response.data.jwt);
 
                 // Set user data in localStorage:
                 localStorage.setItem('username', response.data.user.username)
                 localStorage.setItem('email', response.data.user.email)
-
-                // Set JWT in localStorage
                 localStorage.setItem('jwt', response.data.jwt)
-
-                // Set logged in status to true in localStorage
                 localStorage.setItem('loggedIn', true)
 
                 // Refresh page
