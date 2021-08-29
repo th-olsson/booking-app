@@ -14,7 +14,6 @@ function Bookings() {
 
     useEffect(() => {
         // Get user info based on token
-        console.log(token)
         axios.get('https://booking-app-strapi.herokuapp.com/users/me', {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -32,7 +31,6 @@ function Bookings() {
                         setTotalPrice(sumOfPrices)
 
                         // Set bookings
-                        console.log(response.data)
                         setBookings(response.data)
                     })
                     .catch(error => {
@@ -45,8 +43,9 @@ function Bookings() {
 
     }, [])
 
-
+    // Stripe checkout
     const handleClick = async (event) => {
+
         // Get Stripe.js instance
         const stripe = await stripePromise;
 
@@ -64,16 +63,11 @@ function Bookings() {
                 data: { price: totalPrice },
             })
 
-
-        console.log(response)
         const sessionId = await response.data.id.id;
-
-        console.log(sessionId)
 
         // When the customer clicks on the button, redirect them to Checkout.
         const result = await stripe.redirectToCheckout({
             sessionId: sessionId
-
         });
 
         if (result.error) {

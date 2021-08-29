@@ -21,7 +21,6 @@ function NavBar() {
                 }
             })
                 .then((response) => {
-                    console.log('User data: ', response.data)
 
                     if (response.data.role.name === 'Admin') {
                         setIsAdmin(true)
