@@ -81,9 +81,9 @@ function Bookings() {
         // Bookings list
         <main>
             <h2 className='text-center text-2xl text-gray-800 my-5'>Bokningar</h2>
-            <section className='text-center'>
+            <section className='text-center pb-2'>
                 <p>Totala kostnaden för dina bokningar: {totalPrice}</p>
-                <button role='link' onClick={handleClick}>Betala</button>
+                <button role='link' onClick={handleClick} className='px-4 py-2 mt-2 text-white font-light tracking-wider bg-green-600 hover:bg-green-500 rounded'>Betala</button>
             </section>
             <section className='flex flex-col items-center'>
                 {bookings.map(({ id, name, tel, treatment, date, time }) =>
